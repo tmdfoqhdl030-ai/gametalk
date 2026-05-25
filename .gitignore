@@ -1,0 +1,14 @@
+.env.local
+.env.*.local
+node_modules/
+.next/
+out/
+dist/
+*.tsbuildinfo
+.DS_Store
+discord-bot/node_modules/
+discord-bot/dist/
+memory/
+CLAUDE.md
+# Claude Code internal signal files
+C：*

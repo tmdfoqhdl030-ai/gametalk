@@ -1,0 +1,1209 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>게임톡 — 게임하면서 영어 공부</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Barlow:wght@600;800&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #f8f9fa;
+    --white: #ffffff;
+    --border: #e5e8ed;
+    --border-hover: #c8cdd6;
+    --text: #1a1d23;
+    --sub: #5c6370;
+    --muted: #9ba3af;
+    --pubg: #f0a500;
+    --lol: #c89b3c;
+    --ow: #f99e1a;
+    --accent: #3d7eff;
+    --accent-light: #eef3ff;
+    --accent-hover: #2d6ef0;
+    --green: #1cb95e;
+    --red: #f04452;
+    --radius: 12px;
+    --radius-sm: 8px;
+    --shadow-sm: 0 1px 4px rgba(0,0,0,0.06);
+    --shadow: 0 4px 16px rgba(0,0,0,0.08);
+    --shadow-lg: 0 8px 32px rgba(0,0,0,0.12);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a { text-decoration: none; color: inherit; }
+
+  /* ===== NAV ===== */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 200;
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    height: 56px;
+    display: flex;
+    align-items: center;
+  }
+
+  .nav-inner {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 24px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 32px;
+  }
+
+  .logo {
+    font-family: 'Barlow', sans-serif;
+    font-weight: 800;
+    font-size: 20px;
+    color: var(--accent);
+    letter-spacing: -0.5px;
+    flex-shrink: 0;
+  }
+
+  .logo span { color: var(--text); }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    list-style: none;
+    flex: 1;
+  }
+
+  .nav-links a {
+    padding: 6px 12px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--sub);
+    border-radius: 6px;
+    transition: background 0.15s, color 0.15s;
+  }
+
+  .nav-links a:hover { background: var(--bg); color: var(--text); }
+  .nav-links a.active { color: var(--accent); font-weight: 700; }
+
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: auto;
+  }
+
+  .btn-login {
+    padding: 7px 16px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--sub);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--white);
+    cursor: pointer;
+    transition: border-color 0.15s, color 0.15s;
+  }
+
+  .btn-login:hover { border-color: var(--border-hover); color: var(--text); }
+
+  .btn-signup {
+    padding: 7px 16px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #fff;
+    background: var(--accent);
+    border: none;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+
+  .btn-signup:hover { background: var(--accent-hover); }
+
+  /* ===== HERO ===== */
+  .hero {
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    padding: 64px 24px 56px;
+    text-align: center;
+  }
+
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--accent-light);
+    color: var(--accent);
+    font-size: 12px;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 999px;
+    margin-bottom: 20px;
+    letter-spacing: 0.02em;
+  }
+
+  .hero-tag .dot {
+    width: 5px; height: 5px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: blink 1.8s ease-in-out infinite;
+  }
+
+  @keyframes blink {
+    0%,100% { opacity:1; } 50% { opacity:0.3; }
+  }
+
+  .hero h1 {
+    font-size: 36px;
+    font-weight: 900;
+    letter-spacing: -0.5px;
+    line-height: 1.25;
+    color: var(--text);
+  }
+
+  .hero h1 em {
+    font-style: normal;
+    color: var(--accent);
+  }
+
+  .hero p {
+    margin-top: 14px;
+    font-size: 15px;
+    color: var(--sub);
+    line-height: 1.7;
+  }
+
+  .hero-actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 28px;
+  }
+
+  .btn-hero-primary {
+    padding: 12px 28px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #fff;
+    background: var(--accent);
+    border: none;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: background 0.15s, box-shadow 0.15s;
+    font-family: 'Noto Sans KR', sans-serif;
+  }
+
+  .btn-hero-primary:hover {
+    background: var(--accent-hover);
+    box-shadow: 0 4px 16px rgba(61,126,255,0.3);
+  }
+
+  .btn-hero-ghost {
+    padding: 12px 24px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--sub);
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: border-color 0.15s, color 0.15s;
+    font-family: 'Noto Sans KR', sans-serif;
+  }
+
+  .btn-hero-ghost:hover { border-color: var(--border-hover); color: var(--text); }
+
+  /* stats */
+  .hero-stats {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-top: 40px;
+    padding-top: 32px;
+    border-top: 1px solid var(--border);
+  }
+
+  .hstat { text-align: center; }
+
+  .hstat-num {
+    font-family: 'Barlow', sans-serif;
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--text);
+  }
+
+  .hstat-label {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  /* ===== MAIN LAYOUT ===== */
+  .main-wrap {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 32px 24px;
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    gap: 24px;
+    align-items: start;
+  }
+
+  /* ===== SIDEBAR ===== */
+  .sidebar { display: flex; flex-direction: column; gap: 8px; }
+
+  .sidebar-section-title {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 8px 12px 4px;
+  }
+
+  .game-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: background 0.12s;
+    border: none;
+    background: transparent;
+    width: 100%;
+    text-align: left;
+    font-family: 'Noto Sans KR', sans-serif;
+  }
+
+  .game-btn:hover { background: var(--white); }
+
+  .game-btn.active {
+    background: var(--white);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .game-btn.active .game-btn-name { color: var(--accent); font-weight: 700; }
+
+  .game-icon-wrap {
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+
+  .gi-pubg { background: #fff8e6; }
+  .gi-lol  { background: #fdf5e0; }
+  .gi-ow   { background: #fff3e0; }
+
+  .game-btn-info { flex: 1; min-width: 0; }
+  .game-btn-name { font-size: 13px; font-weight: 500; color: var(--text); display: block; }
+  .game-btn-count { font-size: 11px; color: var(--muted); margin-top: 1px; display: flex; align-items: center; gap: 4px; }
+
+  .online-dot {
+    width: 5px; height: 5px;
+    background: var(--green);
+    border-radius: 50%;
+    display: inline-block;
+  }
+
+  .sidebar-divider {
+    height: 1px;
+    background: var(--border);
+    margin: 8px 0;
+  }
+
+  /* my level card */
+  .level-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+    margin-top: 8px;
+  }
+
+  .level-card-title { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 12px; }
+
+  .level-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+  }
+
+  .level-label { font-size: 12px; color: var(--sub); }
+  .level-badge {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 4px;
+  }
+
+  .lb-beginner { background: #e8f5e9; color: #2e7d32; }
+  .lb-intermediate { background: #e3f2fd; color: #1565c0; }
+  .lb-advanced { background: #fce4ec; color: #c62828; }
+
+  .level-select {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    color: var(--text);
+    background: var(--bg);
+    cursor: pointer;
+    font-family: 'Noto Sans KR', sans-serif;
+    margin-top: 4px;
+  }
+
+  /* ===== CONTENT ===== */
+  .content { display: flex; flex-direction: column; gap: 20px; }
+
+  /* filter bar */
+  .filter-bar {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .filter-label { font-size: 12px; font-weight: 700; color: var(--sub); flex-shrink: 0; }
+
+  .filter-chips { display: flex; gap: 6px; flex-wrap: wrap; flex: 1; }
+
+  .chip {
+    padding: 4px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 500;
+    border: 1px solid var(--border);
+    color: var(--sub);
+    background: var(--bg);
+    cursor: pointer;
+    transition: all 0.12s;
+    font-family: 'Noto Sans KR', sans-serif;
+  }
+
+  .chip:hover { border-color: var(--accent); color: var(--accent); }
+  .chip.active { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 700; }
+
+  .filter-right { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+
+  .new-room-btn {
+    display: flex; align-items: center; gap: 6px;
+    padding: 7px 16px;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: 'Noto Sans KR', sans-serif;
+    transition: background 0.15s;
+    white-space: nowrap;
+  }
+
+  .new-room-btn:hover { background: var(--accent-hover); }
+
+  /* section header */
+  .section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+  }
+
+  .section-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .section-count {
+    font-size: 11px;
+    font-weight: 700;
+    background: var(--accent-light);
+    color: var(--accent);
+    padding: 2px 7px;
+    border-radius: 4px;
+  }
+
+  .section-more {
+    font-size: 12px;
+    color: var(--muted);
+    cursor: pointer;
+    transition: color 0.12s;
+  }
+
+  .section-more:hover { color: var(--accent); }
+
+  /* room cards */
+  .rooms-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .room-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+    cursor: pointer;
+    transition: border-color 0.15s, box-shadow 0.15s, transform 0.15s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .room-card:hover {
+    border-color: var(--accent);
+    box-shadow: var(--shadow);
+    transform: translateY(-2px);
+  }
+
+  .room-card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+
+  .room-game-badge {
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .rgb-pubg { background: #fff3cc; color: #a07000; }
+  .rgb-lol  { background: #fdf0d5; color: #8a6500; }
+  .rgb-ow   { background: #fff3e0; color: #b35900; }
+
+  .room-status {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  .rs-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+  }
+
+  .rs-open { background: var(--green); }
+  .rs-full { background: var(--red); }
+
+  .room-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 5px;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .room-desc {
+    font-size: 12px;
+    color: var(--sub);
+    line-height: 1.5;
+    margin-bottom: 12px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .room-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 10px;
+    border-top: 1px solid var(--border);
+  }
+
+  .room-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .room-meta-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  .room-eng-level {
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 4px;
+  }
+
+  .rel-beg { background: #e8f5e9; color: #2e7d32; }
+  .rel-int { background: #e3f2fd; color: #1565c0; }
+  .rel-adv { background: #fce4ec; color: #c62828; }
+
+  .room-join-btn {
+    padding: 5px 14px;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--accent);
+    background: var(--accent-light);
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.12s, color 0.12s;
+    font-family: 'Noto Sans KR', sans-serif;
+  }
+
+  .room-join-btn:hover { background: var(--accent); color: #fff; }
+  .room-join-btn.full { color: var(--muted); background: var(--bg); cursor: default; }
+
+  /* popular section */
+  .popular-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+
+  .popular-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px 16px;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.15s, box-shadow 0.15s, transform 0.15s;
+  }
+
+  .popular-card:hover {
+    border-color: var(--accent);
+    box-shadow: var(--shadow);
+    transform: translateY(-2px);
+  }
+
+  .popular-card-icon { font-size: 32px; margin-bottom: 10px; display: block; }
+
+  .popular-card h3 {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+
+  .popular-card-stat {
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  .popular-card-stat strong {
+    color: var(--accent);
+    font-weight: 700;
+  }
+
+  /* how it works */
+  .how-section {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+  }
+
+  .how-steps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-top: 16px;
+  }
+
+  .how-step { text-align: center; }
+
+  .how-step-num {
+    width: 36px; height: 36px;
+    background: var(--accent-light);
+    color: var(--accent);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+    font-weight: 900;
+    margin: 0 auto 10px;
+    font-family: 'Barlow', sans-serif;
+  }
+
+  .how-step h4 {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+
+  .how-step p { font-size: 11px; color: var(--sub); line-height: 1.5; }
+
+  .how-arrow {
+    display: flex; align-items: center; justify-content: center;
+    color: var(--border-hover);
+    font-size: 18px;
+    padding-top: 8px;
+  }
+
+  /* notice bar */
+  .notice-bar {
+    background: var(--accent-light);
+    border: 1px solid rgba(61,126,255,0.2);
+    border-radius: var(--radius-sm);
+    padding: 10px 16px;
+    font-size: 12px;
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .notice-bar strong { font-weight: 700; }
+
+  /* ===== MODAL OVERLAY (room detail) ===== */
+  .modal-overlay {
+    display: none;
+    position: fixed; inset: 0; z-index: 500;
+    background: rgba(0,0,0,0.35);
+    align-items: center; justify-content: center;
+  }
+
+  .modal-overlay.open { display: flex; }
+
+  .modal {
+    background: var(--white);
+    border-radius: var(--radius);
+    width: 480px;
+    max-width: calc(100vw - 40px);
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+    animation: modalIn 0.2s ease;
+  }
+
+  @keyframes modalIn {
+    from { opacity:0; transform: translateY(10px) scale(0.98); }
+    to   { opacity:1; transform: translateY(0) scale(1); }
+  }
+
+  .modal-header {
+    padding: 18px 20px 16px;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+
+  .modal-title { font-size: 15px; font-weight: 700; }
+  .modal-close { background: none; border: none; font-size: 18px; color: var(--muted); cursor: pointer; line-height: 1; }
+  .modal-close:hover { color: var(--text); }
+
+  .modal-body { padding: 20px; }
+
+  .modal-info-row { display: flex; justify-content: space-between; margin-bottom: 12px; }
+  .modal-info-label { font-size: 12px; color: var(--sub); }
+  .modal-info-val { font-size: 12px; font-weight: 700; color: var(--text); }
+
+  .modal-rule {
+    background: var(--bg);
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+    font-size: 12px;
+    color: var(--sub);
+    line-height: 1.6;
+    margin: 16px 0;
+  }
+
+  .modal-rule strong { color: var(--accent); font-weight: 700; }
+
+  .modal-footer { padding: 16px 20px; border-top: 1px solid var(--border); display: flex; gap: 8px; justify-content: flex-end; }
+
+  .btn-cancel {
+    padding: 8px 20px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--sub);
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-family: 'Noto Sans KR', sans-serif;
+  }
+
+  .btn-enter {
+    padding: 8px 24px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #fff;
+    background: var(--accent);
+    border: none;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-family: 'Noto Sans KR', sans-serif;
+    transition: background 0.15s;
+  }
+
+  .btn-enter:hover { background: var(--accent-hover); }
+
+  /* ===== FOOTER ===== */
+  footer {
+    border-top: 1px solid var(--border);
+    background: var(--white);
+    padding: 24px;
+    margin-top: 40px;
+  }
+
+  .footer-inner {
+    max-width: 1080px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .footer-logo {
+    font-family: 'Barlow', sans-serif;
+    font-weight: 800;
+    font-size: 16px;
+    color: var(--accent);
+  }
+
+  .footer-logo span { color: var(--text); }
+
+  .footer-links { display: flex; gap: 20px; }
+  .footer-links a { font-size: 12px; color: var(--muted); transition: color 0.12s; }
+  .footer-links a:hover { color: var(--text); }
+
+  .footer-copy { font-size: 12px; color: var(--muted); }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 768px) {
+    .main-wrap { grid-template-columns: 1fr; }
+    .sidebar { display: none; }
+    .rooms-grid { grid-template-columns: 1fr; }
+    .popular-grid { grid-template-columns: repeat(3,1fr); }
+    .how-steps { grid-template-columns: repeat(2,1fr); }
+    .hero h1 { font-size: 26px; }
+    .hero-stats { gap: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== NAV ===== -->
+<nav>
+  <div class="nav-inner">
+    <a class="logo" href="#">게임<span>톡</span></a>
+    <ul class="nav-links">
+      <li><a href="#" class="active">홈</a></li>
+      <li><a href="#">게임방</a></li>
+      <li><a href="#">랭킹</a></li>
+      <li><a href="#">커뮤니티</a></li>
+      <li><a href="#">이용 가이드</a></li>
+    </ul>
+    <div class="nav-right">
+      <button class="btn-login">로그인</button>
+      <button class="btn-signup">무료 가입</button>
+    </div>
+  </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<div class="hero">
+  <div class="hero-tag">
+    <div class="dot"></div>
+    지금 &nbsp;<strong>1,247명</strong>&nbsp; 플레이 중
+  </div>
+  <h1>게임하면서 <em>영어 회화</em>를<br>자연스럽게 배우세요</h1>
+  <p>배그, 롤, 오버워치 — 좋아하는 게임을 하면서<br>영어로만 소통하는 커뮤니티에서 실력을 키우세요.</p>
+  <div class="hero-actions">
+    <button class="btn-hero-primary" onclick="document.querySelector('.main-wrap').scrollIntoView({behavior:'smooth'})">게임방 둘러보기 →</button>
+    <button class="btn-hero-ghost">서비스 소개 보기</button>
+  </div>
+  <div class="hero-stats">
+    <div class="hstat"><div class="hstat-num">12,400+</div><div class="hstat-label">가입 유저</div></div>
+    <div class="hstat"><div class="hstat-num">3,200+</div><div class="hstat-label">이번 달 게임방</div></div>
+    <div class="hstat"><div class="hstat-num">4.8★</div><div class="hstat-label">유저 만족도</div></div>
+    <div class="hstat"><div class="hstat-num">3개</div><div class="hstat-label">지원 게임</div></div>
+  </div>
+</div>
+
+<!-- ===== MAIN ===== -->
+<div class="main-wrap">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-section-title">게임 선택</div>
+
+    <button class="game-btn active" onclick="filterGame('all', this)">
+      <div class="game-icon-wrap" style="background:#f0f4ff; font-size:16px;">🎮</div>
+      <div class="game-btn-info">
+        <span class="game-btn-name">전체 게임</span>
+        <span class="game-btn-count"><span class="online-dot"></span>1,247명 온라인</span>
+      </div>
+    </button>
+
+    <button class="game-btn" onclick="filterGame('pubg', this)">
+      <div class="game-icon-wrap gi-pubg">🪖</div>
+      <div class="game-btn-info">
+        <span class="game-btn-name">배틀그라운드</span>
+        <span class="game-btn-count"><span class="online-dot"></span>412명 온라인</span>
+      </div>
+    </button>
+
+    <button class="game-btn" onclick="filterGame('lol', this)">
+      <div class="game-icon-wrap gi-lol">⚔️</div>
+      <div class="game-btn-info">
+        <span class="game-btn-name">리그오브레전드</span>
+        <span class="game-btn-count"><span class="online-dot"></span>589명 온라인</span>
+      </div>
+    </button>
+
+    <button class="game-btn" onclick="filterGame('ow', this)">
+      <div class="game-icon-wrap gi-ow">🎯</div>
+      <div class="game-btn-info">
+        <span class="game-btn-name">오버워치</span>
+        <span class="game-btn-count"><span class="online-dot"></span>246명 온라인</span>
+      </div>
+    </button>
+
+    <div class="sidebar-divider"></div>
+
+    <div class="level-card">
+      <div class="level-card-title">내 영어 레벨</div>
+      <div class="level-row">
+        <span class="level-label">현재 레벨</span>
+        <span class="level-badge lb-beginner">초급</span>
+      </div>
+      <select class="level-select" onchange="handleLevelChange(this)">
+        <option value="all">전체 레벨 보기</option>
+        <option value="beginner">초급 (Beginner)</option>
+        <option value="intermediate">중급 (Intermediate)</option>
+        <option value="advanced">고급 (Advanced)</option>
+      </select>
+    </div>
+  </aside>
+
+  <!-- CONTENT -->
+  <div class="content">
+
+    <!-- notice -->
+    <div class="notice-bar">
+      📢 <strong>공지:</strong> 게임방 내 영어 사용은 필수입니다. 한국어 사용 시 경고 후 퇴장 조치됩니다.
+    </div>
+
+    <!-- filter bar -->
+    <div class="filter-bar">
+      <span class="filter-label">필터</span>
+      <div class="filter-chips">
+        <button class="chip active" onclick="setChip(this,'status','all')">전체</button>
+        <button class="chip" onclick="setChip(this,'status','open')">모집 중</button>
+        <button class="chip" onclick="setChip(this,'status','now')">지금 바로</button>
+        <button class="chip" onclick="setChip(this,'level','beginner')">초급</button>
+        <button class="chip" onclick="setChip(this,'level','intermediate')">중급</button>
+        <button class="chip" onclick="setChip(this,'level','advanced')">고급</button>
+      </div>
+      <div class="filter-right">
+        <button class="new-room-btn" onclick="alert('로그인이 필요합니다.')">
+          ＋ 방 만들기
+        </button>
+      </div>
+    </div>
+
+    <!-- rooms -->
+    <div>
+      <div class="section-header">
+        <span class="section-title">🔥 인기 게임방 <span class="section-count">24개</span></span>
+        <span class="section-more">전체 보기 →</span>
+      </div>
+      <div class="rooms-grid" id="rooms-grid">
+
+        <div class="room-card" data-game="pubg" onclick="openModal('pubg','[배그] 스쿼드 영어로만!','영어 회화 연습하실 분들 모집합니다. 전략, 콜아웃 모두 영어로!','초급','3/4')">
+          <div class="room-card-top">
+            <span class="room-game-badge rgb-pubg">배틀그라운드</span>
+            <div class="room-status"><div class="rs-dot rs-open"></div>모집 중</div>
+          </div>
+          <div class="room-title">[배그] 스쿼드 영어로만! 초보 환영 🪖</div>
+          <div class="room-desc">전략, 콜아웃, 잡담까지 영어로만 소통해요. 처음이신 분들도 환영합니다!</div>
+          <div class="room-footer">
+            <div class="room-meta">
+              <div class="room-meta-item">👥 3/4</div>
+              <div class="room-meta-item">🕐 지금 시작</div>
+              <span class="room-eng-level rel-beg">초급</span>
+            </div>
+            <button class="room-join-btn">참여하기</button>
+          </div>
+        </div>
+
+        <div class="room-card" data-game="lol" onclick="openModal('lol','[롤] 영어 콜아웃 연습 스크림','롤 전문 용어 영어로 배우면서 실력도 올려봐요! 골드~플래 환영.','중급','4/5')">
+          <div class="room-card-top">
+            <span class="room-game-badge rgb-lol">리그오브레전드</span>
+            <div class="room-status"><div class="rs-dot rs-open"></div>모집 중</div>
+          </div>
+          <div class="room-title">[롤] 영어 콜아웃 연습 스크림 ⚔️</div>
+          <div class="room-desc">롤 전문 용어를 영어로 배우면서 실력도 올려봐요! 골드~플래 환영.</div>
+          <div class="room-footer">
+            <div class="room-meta">
+              <div class="room-meta-item">👥 4/5</div>
+              <div class="room-meta-item">🕐 5분 후</div>
+              <span class="room-eng-level rel-int">중급</span>
+            </div>
+            <button class="room-join-btn">참여하기</button>
+          </div>
+        </div>
+
+        <div class="room-card" data-game="ow" onclick="openModal('ow','[오버워치] 경쟁전 영어 팀','울트 콜, 스왑 요청 모두 영어로! 경쟁전 Diamond 이상.','고급','5/6')">
+          <div class="room-card-top">
+            <span class="room-game-badge rgb-ow">오버워치</span>
+            <div class="room-status"><div class="rs-dot rs-open"></div>모집 중</div>
+          </div>
+          <div class="room-title">[오버워치] 경쟁전 영어 팀 🎯</div>
+          <div class="room-desc">울트 콜, 스왑 요청, 전략 모두 영어로! 경쟁전 Diamond 이상 환영.</div>
+          <div class="room-footer">
+            <div class="room-meta">
+              <div class="room-meta-item">👥 5/6</div>
+              <div class="room-meta-item">🕐 지금 시작</div>
+              <span class="room-eng-level rel-adv">고급</span>
+            </div>
+            <button class="room-join-btn">참여하기</button>
+          </div>
+        </div>
+
+        <div class="room-card" data-game="pubg" onclick="openModal('pubg','[배그] 영어 연습 듀오','듀오로 영어 연습해요. 미드~높은 영어 실력 환영','중급','1/2')">
+          <div class="room-card-top">
+            <span class="room-game-badge rgb-pubg">배틀그라운드</span>
+            <div class="room-status"><div class="rs-dot rs-open"></div>모집 중</div>
+          </div>
+          <div class="room-title">[배그] 영어 연습 듀오 구해요 🪖</div>
+          <div class="room-desc">같이 듀오로 영어 연습해요. 실수해도 괜찮아요, 편하게 말해봐요!</div>
+          <div class="room-footer">
+            <div class="room-meta">
+              <div class="room-meta-item">👥 1/2</div>
+              <div class="room-meta-item">🕐 지금 바로</div>
+              <span class="room-eng-level rel-int">중급</span>
+            </div>
+            <button class="room-join-btn">참여하기</button>
+          </div>
+        </div>
+
+        <div class="room-card" data-game="lol" onclick="openModal('lol','[롤] All English 일반 게임','부담 없이 영어로 대화하면서 즐기는 일반 게임방','초급','2/5')">
+          <div class="room-card-top">
+            <span class="room-game-badge rgb-lol">리그오브레전드</span>
+            <div class="room-status"><div class="rs-dot rs-open"></div>모집 중</div>
+          </div>
+          <div class="room-title">[롤] All English 일반 게임 😊</div>
+          <div class="room-desc">부담 없이 영어로 대화하면서 즐기는 일반 게임방. 초보자 적극 환영!</div>
+          <div class="room-footer">
+            <div class="room-meta">
+              <div class="room-meta-item">👥 2/5</div>
+              <div class="room-meta-item">🕐 10분 후</div>
+              <span class="room-eng-level rel-beg">초급</span>
+            </div>
+            <button class="room-join-btn">참여하기</button>
+          </div>
+        </div>
+
+        <div class="room-card" data-game="ow" onclick="null" style="opacity:0.6; cursor:default;">
+          <div class="room-card-top">
+            <span class="room-game-badge rgb-ow">오버워치</span>
+            <div class="room-status"><div class="rs-dot rs-full"></div>마감</div>
+          </div>
+          <div class="room-title">[오버워치] 영어 캐주얼 6인 풀방 🎯</div>
+          <div class="room-desc">즐거운 분위기에서 영어로 소통해요. 다음 방도 곧 오픈 예정!</div>
+          <div class="room-footer">
+            <div class="room-meta">
+              <div class="room-meta-item">👥 6/6</div>
+              <div class="room-meta-item">🕐 진행 중</div>
+              <span class="room-eng-level rel-int">중급</span>
+            </div>
+            <button class="room-join-btn full">마감</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- popular games -->
+    <div>
+      <div class="section-header">
+        <span class="section-title">🎮 게임별 현황</span>
+      </div>
+      <div class="popular-grid">
+        <div class="popular-card" onclick="filterGame('pubg', document.querySelectorAll('.game-btn')[1])">
+          <span class="popular-card-icon">🪖</span>
+          <h3>배틀그라운드</h3>
+          <div class="popular-card-stat">활성 방 <strong>8개</strong> · 412명</div>
+        </div>
+        <div class="popular-card" onclick="filterGame('lol', document.querySelectorAll('.game-btn')[2])">
+          <span class="popular-card-icon">⚔️</span>
+          <h3>리그오브레전드</h3>
+          <div class="popular-card-stat">활성 방 <strong>11개</strong> · 589명</div>
+        </div>
+        <div class="popular-card" onclick="filterGame('ow', document.querySelectorAll('.game-btn')[3])">
+          <span class="popular-card-icon">🎯</span>
+          <h3>오버워치</h3>
+          <div class="popular-card-stat">활성 방 <strong>5개</strong> · 246명</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- how it works -->
+    <div class="how-section">
+      <div class="section-header" style="margin-bottom:0">
+        <span class="section-title">💡 이용 방법</span>
+      </div>
+      <div class="how-steps">
+        <div class="how-step">
+          <div class="how-step-num">1</div>
+          <h4>회원가입</h4>
+          <p>무료로 가입하고 영어 레벨을 설정하세요</p>
+        </div>
+        <div class="how-step">
+          <div class="how-step-num">2</div>
+          <h4>게임 선택</h4>
+          <p>배그·롤·오버워치 중 원하는 게임 선택</p>
+        </div>
+        <div class="how-step">
+          <div class="how-step-num">3</div>
+          <h4>방 참여</h4>
+          <p>레벨에 맞는 방에 참여하세요</p>
+        </div>
+        <div class="how-step">
+          <div class="how-step-num">4</div>
+          <h4>영어로 플레이!</h4>
+          <p>게임하면서 자연스럽게 영어 실력 UP ↑</p>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+</div><!-- /main-wrap -->
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">게임<span>톡</span></div>
+    <div class="footer-links">
+      <a href="#">서비스 소개</a>
+      <a href="#">이용약관</a>
+      <a href="#">개인정보처리방침</a>
+      <a href="#">고객센터</a>
+      <a href="#">공지사항</a>
+    </div>
+    <div class="footer-copy">© 2026 게임톡. All rights reserved.</div>
+  </div>
+</footer>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal" onclick="closeModalOutside(event)">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title" id="modal-title">게임방 상세</span>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-info-row">
+        <span class="modal-info-label">게임</span>
+        <span class="modal-info-val" id="modal-game">—</span>
+      </div>
+      <div class="modal-info-row">
+        <span class="modal-info-label">영어 레벨</span>
+        <span class="modal-info-val" id="modal-level">—</span>
+      </div>
+      <div class="modal-info-row">
+        <span class="modal-info-label">인원</span>
+        <span class="modal-info-val" id="modal-members">—</span>
+      </div>
+      <div class="modal-info-row">
+        <span class="modal-info-label">방장</span>
+        <span class="modal-info-val">영어왕#KR (Lv.24)</span>
+      </div>
+      <div class="modal-rule">
+        <strong>📌 필수 규칙</strong><br>
+        이 방에서는 <strong>영어만 사용</strong>해야 합니다.<br>
+        한국어 사용 시 1회 경고 후 퇴장 처리됩니다.<br>
+        실수해도 괜찮아요! 편하게 영어로 말해보세요 😊
+      </div>
+      <div id="modal-desc" style="font-size:13px; color:var(--sub); line-height:1.6;"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeModal()">취소</button>
+      <button class="btn-enter" onclick="alert('로그인 후 참여할 수 있습니다!')">방 참여하기</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const gameNames = { pubg:'배틀그라운드', lol:'리그오브레전드', ow:'오버워치' };
+
+  function filterGame(game, btn) {
+    document.querySelectorAll('.game-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const cards = document.querySelectorAll('.room-card');
+    cards.forEach(c => {
+      c.style.display = (game === 'all' || c.dataset.game === game) ? '' : 'none';
+    });
+  }
+
+  function setChip(el, group, val) {
+    el.closest('.filter-chips').querySelectorAll('.chip').forEach(c => {
+      if (c.textContent.trim() === el.textContent.trim()) {
+        c.classList.toggle('active');
+      }
+    });
+  }
+
+  function openModal(game, title, desc, level, members) {
+    document.getElementById('modal-title').textContent = title;
+    document.getElementById('modal-game').textContent = gameNames[game] || game;
+    document.getElementById('modal-level').textContent = level;
+    document.getElementById('modal-members').textContent = members + '명';
+    document.getElementById('modal-desc').textContent = desc;
+    document.getElementById('modal').classList.add('open');
+  }
+
+  function closeModal() {
+    document.getElementById('modal').classList.remove('open');
+  }
+
+  function closeModalOutside(e) {
+    if (e.target === document.getElementById('modal')) closeModal();
+  }
+
+  function handleLevelChange(sel) {
+    // placeholder for actual filtering
+  }
+</script>
+</body>
+</html>

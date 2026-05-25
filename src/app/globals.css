@@ -1,0 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Barlow:wght@600;800&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-accent: #3d7eff;
+  --color-accent-hover: #2d6ef0;
+  --color-accent-light: #eef3ff;
+  --font-family-sans: "Noto Sans KR", sans-serif;
+}
+
+@layer base {
+  body {
+    background-color: #f8f9fa;
+    color: #1a1d23;
+    -webkit-font-smoothing: antialiased;
+    font-family: "Noto Sans KR", sans-serif;
+  }
+}

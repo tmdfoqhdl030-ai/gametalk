@@ -1,0 +1,21 @@
+{
+  "name": "gametalk-bot",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "ts-node --esm index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "register": "ts-node --esm register-commands.ts"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.0.0",
+    "discord.js": "^14.0.0",
+    "dotenv": "^16.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "ts-node": "^10.0.0",
+    "typescript": "^5.0.0"
+  }
+}
