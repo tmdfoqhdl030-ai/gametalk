@@ -77,6 +77,9 @@ export default function LoginPage() {
           계정이 없으신가요?{" "}
           <Link href="/auth/signup" className="text-accent font-bold hover:underline">무료 가입</Link>
         </p>
+        <p className="text-center text-xs text-gray-400 mt-2">
+          <Link href="/auth/reset-password" className="hover:underline hover:text-gray-600">비밀번호를 잊으셨나요?</Link>
+        </p>
       </div>
     </div>
   );

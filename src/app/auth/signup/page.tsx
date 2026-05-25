@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { createClient } from "@/lib/supabase/client";
 import Button from "@/components/ui/Button";
 import { EnglishLevel, LEVEL_LABELS } from "@/types";
 
@@ -10,6 +11,7 @@ const LEVELS: EnglishLevel[] = ["beginner", "intermediate", "advanced"];
 
 export default function SignupPage() {
   const router = useRouter();
+  const supabase = createClient();
 
   const [form, setForm] = useState({
     email: "",
@@ -32,10 +34,23 @@ export default function SignupPage() {
     });
 
     const json = await res.json();
-    setLoading(false);
 
     if (!res.ok) {
+      setLoading(false);
       setError(json.error ?? "오류가 발생했습니다.");
+      return;
+    }
+
+    // 계정 생성 후 클라이언트에서 직접 로그인 (세션 쿠키 정상 설정)
+    const { error: signInError } = await supabase.auth.signInWithPassword({
+      email: form.email,
+      password: form.password,
+    });
+
+    setLoading(false);
+
+    if (signInError) {
+      setError("가입은 됐어요. 로그인 페이지에서 다시 시도해주세요.");
       return;
     }
 
