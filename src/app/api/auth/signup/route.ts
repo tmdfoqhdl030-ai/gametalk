@@ -13,7 +13,7 @@ export async function POST(request: NextRequest) {
 
   const admin = createAdminClient();
 
-  const { error } = await admin.auth.admin.createUser({
+  const { data, error } = await admin.auth.admin.createUser({
     email,
     password,
     email_confirm: true,
@@ -26,6 +26,14 @@ export async function POST(request: NextRequest) {
     }
     return NextResponse.json({ error: error.message }, { status: 400 });
   }
+
+  // trigger가 실패할 경우를 대비해 직접 삽입
+  await admin.from("users").upsert({
+    id: data.user.id,
+    email,
+    nickname,
+    english_level,
+  });
 
   return NextResponse.json({ ok: true });
 }

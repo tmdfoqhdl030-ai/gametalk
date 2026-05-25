@@ -16,7 +16,14 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   let user: User | null = null;
   if (authUser) {
     const { data } = await supabase.from("users").select("*").eq("id", authUser.id).single();
-    user = data;
+    // users 테이블에 없으면 auth 정보로 임시 프로필 생성
+    user = data ?? {
+      id: authUser.id,
+      email: authUser.email ?? "",
+      nickname: authUser.user_metadata?.nickname ?? authUser.email?.split("@")[0] ?? "유저",
+      english_level: authUser.user_metadata?.english_level ?? "beginner",
+      created_at: authUser.created_at,
+    };
   }
 
   return (
