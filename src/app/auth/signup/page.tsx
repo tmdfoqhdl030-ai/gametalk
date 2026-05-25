@@ -3,7 +3,6 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { createClient } from "@/lib/supabase/client";
 import Button from "@/components/ui/Button";
 import { EnglishLevel, LEVEL_LABELS } from "@/types";
 
@@ -11,7 +10,6 @@ const LEVELS: EnglishLevel[] = ["beginner", "intermediate", "advanced"];
 
 export default function SignupPage() {
   const router = useRouter();
-  const supabase = createClient();
 
   const [form, setForm] = useState({
     email: "",
@@ -27,28 +25,17 @@ export default function SignupPage() {
     setLoading(true);
     setError("");
 
-    if (form.password.length < 6) {
-      setError("비밀번호는 6자 이상이어야 합니다.");
-      setLoading(false);
-      return;
-    }
-
-    const { error } = await supabase.auth.signUp({
-      email: form.email,
-      password: form.password,
-      options: {
-        data: { nickname: form.nickname, english_level: form.english_level },
-      },
+    const res = await fetch("/api/auth/signup", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(form),
     });
 
+    const json = await res.json();
     setLoading(false);
 
-    if (error) {
-      if (error.message.includes("already registered")) {
-        setError("이미 사용 중인 이메일입니다.");
-      } else {
-        setError(error.message);
-      }
+    if (!res.ok) {
+      setError(json.error ?? "오류가 발생했습니다.");
       return;
     }
 
