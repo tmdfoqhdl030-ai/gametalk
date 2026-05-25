@@ -32,16 +32,21 @@ export default function Navbar({ user }: NavbarProps) {
         <div className="flex items-center gap-2">
           {user ? (
             <>
-              <span className="text-sm text-gray-500 font-medium">{user.nickname}</span>
               <Link href="/rooms/new" className="px-3 py-1.5 text-sm font-bold text-white bg-accent hover:bg-accent-hover rounded-lg transition-colors">
                 + 방 만들기
               </Link>
-              <button
-                onClick={handleSignOut}
-                className="px-3 py-1.5 text-sm font-medium text-gray-500 border border-gray-200 rounded-lg hover:border-gray-300 hover:text-gray-900 transition-colors"
-              >
-                로그아웃
-              </button>
+              <div className="flex items-center gap-2 pl-2 border-l border-gray-200">
+                <div className="w-8 h-8 rounded-full bg-accent flex items-center justify-center text-white text-sm font-extrabold shrink-0">
+                  {user.nickname.charAt(0).toUpperCase()}
+                </div>
+                <span className="text-sm font-bold text-gray-900 max-w-[100px] truncate">{user.nickname}</span>
+                <button
+                  onClick={handleSignOut}
+                  className="text-xs text-gray-400 hover:text-red-500 transition-colors ml-1"
+                >
+                  로그아웃
+                </button>
+              </div>
             </>
           ) : (
             <>
