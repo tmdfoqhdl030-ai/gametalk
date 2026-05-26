@@ -1,95 +1,127 @@
-import { SlashCommandBuilder, ChatInputCommandInteraction, EmbedBuilder } from "discord.js";
+import {
+  SlashCommandBuilder,
+  ChatInputCommandInteraction,
+  EmbedBuilder,
+  ChannelType,
+} from "discord.js";
 import { createClient } from "@supabase/supabase-js";
+import { getOrCreateDiscordUser } from "../lib/getOrCreateUser";
 
 const supabase = createClient(
   process.env.SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_ROLE_KEY!
 );
 
-const GAME_MAP: Record<string, string> = {
-  배그: "pubg", 배틀그라운드: "pubg", pubg: "pubg",
-  롤: "lol", "리그오브레전드": "lol", lol: "lol",
-  오버워치: "overwatch", ow: "overwatch", overwatch: "overwatch",
-};
-
-const LEVEL_MAP: Record<string, string> = {
-  초급: "beginner", beginner: "beginner",
-  중급: "intermediate", intermediate: "intermediate",
-  고급: "advanced", advanced: "advanced",
-};
+const GAME_EMOJI: Record<string, string> = { pubg: "🪖", lol: "⚔️", overwatch: "🎯" };
+const GAME_LABELS: Record<string, string> = { pubg: "배틀그라운드", lol: "리그오브레전드", overwatch: "오버워치" };
+const LEVEL_LABELS: Record<string, string> = { beginner: "초급", intermediate: "중급", advanced: "고급" };
 
 export const data = new SlashCommandBuilder()
   .setName("방만들기")
-  .setDescription("게임방을 만듭니다")
-  .addStringOption((o) => o.setName("게임").setDescription("pubg/lol/overwatch (또는 배그/롤/오버워치)").setRequired(true))
-  .addStringOption((o) => o.setName("레벨").setDescription("초급/중급/고급").setRequired(true))
-  .addIntegerOption((o) => o.setName("최대인원").setDescription("2~6명").setRequired(true).setMinValue(2).setMaxValue(6))
-  .addStringOption((o) => o.setName("제목").setDescription("방 제목").setRequired(false));
+  .setDescription("게임방과 디스코드 음성 채널을 함께 만듭니다")
+  .addStringOption((o) =>
+    o.setName("게임").setDescription("게임 선택").setRequired(true)
+      .addChoices(
+        { name: "🪖 배틀그라운드", value: "pubg" },
+        { name: "⚔️ 리그오브레전드", value: "lol" },
+        { name: "🎯 오버워치", value: "overwatch" }
+      )
+  )
+  .addStringOption((o) =>
+    o.setName("레벨").setDescription("영어 레벨").setRequired(true)
+      .addChoices(
+        { name: "초급 (Beginner)", value: "beginner" },
+        { name: "중급 (Intermediate)", value: "intermediate" },
+        { name: "고급 (Advanced)", value: "advanced" }
+      )
+  )
+  .addIntegerOption((o) =>
+    o.setName("최대인원").setDescription("2~6명").setRequired(true).setMinValue(2).setMaxValue(6)
+  )
+  .addStringOption((o) =>
+    o.setName("제목").setDescription("방 제목 (없으면 자동 생성)").setRequired(false)
+  );
 
 export async function execute(interaction: ChatInputCommandInteraction) {
   await interaction.deferReply();
 
-  const gameInput = interaction.options.getString("게임", true).toLowerCase();
-  const levelInput = interaction.options.getString("레벨", true).toLowerCase();
+  const game = interaction.options.getString("게임", true);
+  const level = interaction.options.getString("레벨", true);
   const maxPlayers = interaction.options.getInteger("최대인원", true);
   const titleInput = interaction.options.getString("제목");
 
-  const game = GAME_MAP[gameInput];
-  const level = LEVEL_MAP[levelInput];
-
-  if (!game) return interaction.editReply("❌ 지원하지 않는 게임입니다. (배그/롤/오버워치)");
-  if (!level) return interaction.editReply("❌ 레벨을 확인하세요. (초급/중급/고급)");
-
   const discordUser = interaction.user;
-  const title = titleInput ?? `[Discord] ${discordUser.username}의 ${gameInput} 방`;
+  const title = titleInput ?? `${GAME_EMOJI[game]} ${discordUser.username}의 ${GAME_LABELS[game]}`;
 
-  // Find or create user record
-  const { data: existingUser } = await supabase
-    .from("users")
-    .select("id")
-    .eq("nickname", discordUser.username)
-    .single();
-
-  let hostId = existingUser?.id;
-
-  if (!hostId) {
-    // Create a placeholder user for the Discord user
-    const { data: newUser } = await supabase.auth.admin.createUser({
-      email: `${discordUser.id}@discord.gametalk`,
-      password: Math.random().toString(36),
-      user_metadata: { nickname: discordUser.username, english_level: level },
-      email_confirm: true,
-    });
-    hostId = newUser?.user?.id;
-  }
-
+  const hostId = await getOrCreateDiscordUser(discordUser.id, discordUser.username, level);
   if (!hostId) return interaction.editReply("❌ 사용자 생성에 실패했습니다.");
 
+  // DB에 방 생성
   const { data: room, error } = await supabase
     .from("rooms")
     .insert({ title, game, max_players: maxPlayers, english_level: level, host_id: hostId })
     .select()
     .single();
 
-  if (error) return interaction.editReply(`❌ 오류: ${error.message}`);
+  if (error) return interaction.editReply(`❌ 방 생성 오류: ${error.message}`);
 
   await supabase.from("room_members").insert({ room_id: room.id, user_id: hostId });
 
-  const GAME_LABELS: Record<string, string> = { pubg: "배틀그라운드", lol: "리그오브레전드", overwatch: "오버워치" };
-  const LEVEL_LABELS: Record<string, string> = { beginner: "초급", intermediate: "중급", advanced: "고급" };
+  // 디스코드 음성 채널 자동 생성
+  let voiceChannelId: string | null = null;
+
+  if (interaction.guild) {
+    try {
+      const voiceChannel = await interaction.guild.channels.create({
+        name: `${GAME_EMOJI[game]} ${title}`,
+        type: ChannelType.GuildVoice,
+        userLimit: maxPlayers,
+      });
+
+      voiceChannelId = voiceChannel.id;
+
+      // 기존 discord_invite 컬럼에 채널 ID 저장 (별도 마이그레이션 불필요)
+      await supabase.from("rooms").update({ discord_invite: voiceChannelId }).eq("id", room.id);
+
+      // 방 만든 사람이 이미 음성 채널에 있으면 자동으로 이동
+      try {
+        const member = await interaction.guild.members.fetch(discordUser.id);
+        if (member.voice.channelId) {
+          await member.voice.setChannel(voiceChannel);
+        }
+      } catch {
+        // 이동 실패해도 방 생성은 성공
+      }
+    } catch (err) {
+      console.error("음성 채널 생성 실패:", err);
+    }
+  }
 
   const embed = new EmbedBuilder()
     .setColor(0x3d7eff)
-    .setTitle("🎮 게임방이 생성되었습니다!")
+    .setTitle("🎮 게임방이 열렸습니다!")
     .addFields(
       { name: "방 제목", value: room.title, inline: false },
       { name: "게임", value: GAME_LABELS[game], inline: true },
       { name: "레벨", value: LEVEL_LABELS[level], inline: true },
       { name: "최대 인원", value: `${maxPlayers}명`, inline: true },
-      { name: "웹사이트에서 보기", value: `https://gametalk.vercel.app/rooms/${room.id}`, inline: false },
-    )
-    .setFooter({ text: `방 ID: ${room.id}` })
-    .setTimestamp();
+    );
+
+  if (voiceChannelId) {
+    embed.addFields({
+      name: "🔊 음성 채널",
+      value: `<#${voiceChannelId}> — 클릭하면 바로 입장!`,
+      inline: false,
+    });
+  }
+
+  embed.addFields({
+    name: "🌐 웹에서 채팅하기",
+    value: `https://gametalk.vercel.app/rooms/${room.id}`,
+    inline: false,
+  });
+
+  embed.setFooter({ text: `/참여 를 입력하면 방을 검색해서 들어올 수 있습니다` }).setTimestamp();
 
   await interaction.editReply({ embeds: [embed] });
 }

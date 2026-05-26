@@ -17,7 +17,6 @@ export default function CreateRoomForm() {
     game: "pubg" as Game,
     max_players: 4,
     english_level: "beginner" as EnglishLevel,
-    discord_invite: "",
   });
 
   async function handleSubmit(e: React.FormEvent) {
@@ -105,17 +104,9 @@ export default function CreateRoomForm() {
         </div>
       </div>
 
-      <div>
-        <label className="block text-sm font-bold text-gray-700 mb-2">
-          디스코드 초대 링크 <span className="text-gray-400 font-normal">(선택)</span>
-        </label>
-        <input
-          type="url"
-          placeholder="https://discord.gg/..."
-          value={form.discord_invite}
-          onChange={(e) => setForm({ ...form, discord_invite: e.target.value })}
-          className="w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-accent transition-colors"
-        />
+      <div className="flex items-center gap-2 px-3 py-2.5 bg-blue-50 border border-blue-100 rounded-lg text-xs text-blue-600">
+        <span>🎙️</span>
+        <span>방을 만들면 디스코드 음성 채널이 자동으로 생성됩니다</span>
       </div>
 
       {error && <p className="text-sm text-red-500">{error}</p>}

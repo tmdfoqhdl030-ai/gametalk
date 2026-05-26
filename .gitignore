@@ -6,8 +6,11 @@ out/
 dist/
 *.tsbuildinfo
 .DS_Store
+discord-bot/.env
 discord-bot/node_modules/
 discord-bot/dist/
+discord-bot/bot_output.txt
+discord-bot/debug-user.ts
 memory/
 CLAUDE.md
 # Claude Code internal signal files

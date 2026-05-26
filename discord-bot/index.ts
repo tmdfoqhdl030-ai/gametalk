@@ -1,5 +1,13 @@
 import "dotenv/config";
-import { Client, Collection, GatewayIntentBits, REST, Routes } from "discord.js";
+import {
+  Client,
+  Collection,
+  GatewayIntentBits,
+  REST,
+  Routes,
+  ChatInputCommandInteraction,
+  AutocompleteInteraction,
+} from "discord.js";
 import * as createRoom from "./commands/createRoom";
 import * as listRooms from "./commands/listRooms";
 import * as joinRoom from "./commands/joinRoom";
@@ -8,10 +16,17 @@ const commands = [createRoom, listRooms, joinRoom];
 
 interface Command {
   data: { name: string; toJSON: () => unknown };
-  execute: (interaction: Parameters<typeof createRoom.execute>[0]) => Promise<void>;
+  execute: (interaction: ChatInputCommandInteraction) => Promise<void>;
+  autocomplete?: (interaction: AutocompleteInteraction) => Promise<void>;
 }
 
-const client = new Client({ intents: [GatewayIntentBits.Guilds] });
+const client = new Client({
+  intents: [
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildVoiceStates, // 음성 채널 이동에 필요
+  ],
+});
+
 const commandMap = new Collection<string, Command>();
 
 for (const cmd of commands) {
@@ -36,6 +51,19 @@ client.once("ready", async () => {
 });
 
 client.on("interactionCreate", async (interaction) => {
+  // 자동완성 처리
+  if (interaction.isAutocomplete()) {
+    const cmd = commandMap.get(interaction.commandName);
+    if (cmd?.autocomplete) {
+      try {
+        await cmd.autocomplete(interaction);
+      } catch (err) {
+        console.error("Autocomplete error:", err);
+      }
+    }
+    return;
+  }
+
   if (!interaction.isChatInputCommand()) return;
 
   const cmd = commandMap.get(interaction.commandName);
