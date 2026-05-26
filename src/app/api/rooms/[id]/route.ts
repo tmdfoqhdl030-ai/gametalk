@@ -1,4 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
+import { deleteDiscordChannel } from "@/lib/discord";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(_req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
@@ -66,32 +67,8 @@ export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ 
 
   if (error) return NextResponse.json({ error: error.message }, { status: 403 });
 
-  // discord_invite로 Discord 채널 삭제
-  const discordInvite = room?.discord_invite;
-  if (discordInvite) {
-    let channelId: string | null = null;
-
-    if (/^\d+$/.test(discordInvite)) {
-      channelId = discordInvite;
-    } else {
-      const inviteCode = discordInvite.split("discord.gg/")[1]?.split("/")[0];
-      if (inviteCode) {
-        const res = await fetch(`https://discord.com/api/v10/invites/${inviteCode}`, {
-          headers: { Authorization: `Bot ${process.env.DISCORD_BOT_TOKEN}` },
-        }).catch(() => null);
-        if (res?.ok) {
-          const data = await res.json();
-          channelId = data?.channel?.id ?? null;
-        }
-      }
-    }
-
-    if (channelId) {
-      await fetch(`https://discord.com/api/v10/channels/${channelId}`, {
-        method: "DELETE",
-        headers: { Authorization: `Bot ${process.env.DISCORD_BOT_TOKEN}` },
-      }).catch(() => null);
-    }
+  if (room?.discord_invite) {
+    await deleteDiscordChannel(room.discord_invite);
   }
 
   return NextResponse.json({ success: true });

@@ -1,5 +1,9 @@
+"use client";
+
 import Link from "next/link";
-import { Room, GAME_LABELS, GAME_EMOJI, LEVEL_LABELS } from "@/types";
+import { Room, GAME_LABELS, LEVEL_LABELS } from "@/types";
+import GameIcon from "@/components/GameIcon";
+import ShareButton from "@/components/ShareButton";
 
 const LEVEL_COLORS = {
   beginner: "bg-green-100 text-green-800",
@@ -8,9 +12,11 @@ const LEVEL_COLORS = {
 };
 
 const GAME_COLORS = {
-  pubg: "bg-yellow-100 text-yellow-800",
-  lol: "bg-amber-100 text-amber-800",
+  pubg:      "bg-yellow-100 text-yellow-800",
+  lol:       "bg-blue-100 text-blue-800",
   overwatch: "bg-orange-100 text-orange-800",
+  valorant:  "bg-red-100 text-red-800",
+  tft:       "bg-purple-100 text-purple-800",
 };
 
 interface RoomCardProps {
@@ -25,12 +31,16 @@ export default function RoomCard({ room }: RoomCardProps) {
     <Link href={`/rooms/${room.id}`}>
       <div className={`bg-white border rounded-xl p-4 hover:border-accent hover:shadow-md transition-all duration-150 cursor-pointer ${isFull ? "opacity-60" : ""}`}>
         <div className="flex items-start justify-between mb-3">
-          <span className={`text-xs font-bold px-2 py-1 rounded uppercase tracking-wide ${GAME_COLORS[room.game]}`}>
-            {GAME_EMOJI[room.game]} {GAME_LABELS[room.game]}
+          <span className={`inline-flex items-center gap-1.5 text-xs font-bold px-2 py-1 rounded uppercase tracking-wide ${GAME_COLORS[room.game]}`}>
+            <GameIcon game={room.game} className="w-4 h-4" />
+            {GAME_LABELS[room.game]}
           </span>
-          <div className="flex items-center gap-1.5 text-xs text-gray-400">
-            <span className={`w-2 h-2 rounded-full ${isFull ? "bg-red-400" : "bg-green-400"}`} />
-            {isFull ? "마감" : "모집 중"}
+          <div className="flex items-center gap-1.5">
+            <div className="flex items-center gap-1.5 text-xs text-gray-400">
+              <span className={`w-2 h-2 rounded-full ${isFull ? "bg-red-400" : "bg-green-400"}`} />
+              {isFull ? "마감" : "모집 중"}
+            </div>
+            <ShareButton url={`/rooms/${room.id}`} title={room.title} variant="icon" />
           </div>
         </div>
 

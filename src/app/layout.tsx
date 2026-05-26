@@ -2,10 +2,11 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { createClient } from "@/lib/supabase/server";
 import Navbar from "@/components/layout/Navbar";
+import Footer from "@/components/layout/Footer";
 import { User } from "@/types";
 
 export const metadata: Metadata = {
-  title: "게임톡 — 게임하면서 영어 실력 UP",
+  title: "게임스피킹 — 게임하면서 영어 실력 UP",
   description: "배틀그라운드, 리그오브레전드, 오버워치를 영어로 함께 즐길 팀원을 찾아보세요",
 };
 
@@ -15,7 +16,11 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
   let user: User | null = null;
   if (authUser) {
-    const { data } = await supabase.from("users").select("*").eq("id", authUser.id).single();
+    const { data } = await supabase
+      .from("users")
+      .select("id, email, nickname, english_level, age, gender, mbti, favorite_games, avatar_animal, created_at")
+      .eq("id", authUser.id)
+      .single();
     // users 테이블에 없으면 auth 정보로 임시 프로필 생성
     user = data ?? {
       id: authUser.id,
@@ -31,6 +36,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <body>
         <Navbar user={user} />
         <main>{children}</main>
+        <Footer />
       </body>
     </html>
   );

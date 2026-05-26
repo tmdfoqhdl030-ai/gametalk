@@ -3,6 +3,7 @@ import { createClient } from "@/lib/supabase/server";
 import { Room, GAME_LABELS, GAME_EMOJI, LEVEL_LABELS } from "@/types";
 import ChatBox from "@/components/chat/ChatBox";
 import RoomActions from "./RoomActions";
+import ShareButton from "@/components/ShareButton";
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -61,7 +62,10 @@ export default async function RoomPage({ params }: PageProps) {
               <span className="text-2xl">{GAME_EMOJI[room.game]}</span>
               <span className="text-xs font-bold text-gray-400 uppercase">{GAME_LABELS[room.game]}</span>
             </div>
-            <h1 className="text-base font-extrabold text-gray-900 mb-1">{room.title}</h1>
+            <div className="flex items-start justify-between gap-2 mb-1">
+              <h1 className="text-base font-extrabold text-gray-900">{room.title}</h1>
+              <ShareButton url={`/rooms/${id}`} title={room.title} variant="icon" className="flex-shrink-0" />
+            </div>
             <p className="text-xs text-gray-400">방장: {room.host?.nickname ?? "—"}</p>
 
             <div className="flex items-center gap-2 mt-4 pt-4 border-t border-gray-100">

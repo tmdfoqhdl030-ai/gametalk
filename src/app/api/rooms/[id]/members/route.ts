@@ -1,4 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
+import { deleteDiscordChannel } from "@/lib/discord";
 import { NextRequest, NextResponse } from "next/server";
 
 // Join a room
@@ -66,7 +67,18 @@ export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ 
     if (nextMember) {
       await supabase.from("rooms").update({ host_id: nextMember.user_id }).eq("id", room_id);
     } else {
+      // 마지막 멤버(호스트)가 나감 → 방 닫기 + Discord 채널 삭제
+      const { data: closingRoom } = await supabase
+        .from("rooms")
+        .select("discord_invite")
+        .eq("id", room_id)
+        .single();
+
       await supabase.from("rooms").update({ status: "closed" }).eq("id", room_id);
+
+      if (closingRoom?.discord_invite) {
+        await deleteDiscordChannel(closingRoom.discord_invite);
+      }
     }
   }
 

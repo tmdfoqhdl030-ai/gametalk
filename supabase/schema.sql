@@ -7,6 +7,16 @@ create table public.users (
   email text not null,
   nickname text not null unique,
   english_level text not null default 'beginner' check (english_level in ('beginner', 'intermediate', 'advanced')),
+  age int check (age between 10 and 99),
+  gender text check (gender in ('male', 'female', 'other', 'secret')),
+  mbti text check (mbti in (
+    'INTJ','INTP','ENTJ','ENTP',
+    'INFJ','INFP','ENFJ','ENFP',
+    'ISTJ','ISFJ','ESTJ','ESFJ',
+    'ISTP','ISFP','ESTP','ESFP'
+  )),
+  favorite_games text[] default '{}',
+  avatar_animal text default 'cat',
   created_at timestamptz not null default now()
 );
 
@@ -14,7 +24,7 @@ create table public.users (
 create table public.rooms (
   id uuid default uuid_generate_v4() primary key,
   title text not null,
-  game text not null check (game in ('pubg', 'lol', 'overwatch')),
+  game text not null check (game in ('pubg', 'lol', 'overwatch', 'valorant', 'tft')),
   max_players int not null default 4 check (max_players between 2 and 6),
   english_level text not null check (english_level in ('beginner', 'intermediate', 'advanced')),
   host_id uuid references public.users(id) on delete set null,

@@ -1,13 +1,16 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import { Game, EnglishLevel, GAME_LABELS, GAME_EMOJI, LEVEL_LABELS } from "@/types";
+import { Game, EnglishLevel, GAME_LABELS, LEVEL_LABELS } from "@/types";
+import GameIcon from "@/components/GameIcon";
 
-const GAMES: { value: Game | "all"; label: string; emoji?: string }[] = [
-  { value: "all", label: "전체 게임" },
-  { value: "pubg", label: GAME_LABELS.pubg, emoji: GAME_EMOJI.pubg },
-  { value: "lol", label: GAME_LABELS.lol, emoji: GAME_EMOJI.lol },
-  { value: "overwatch", label: GAME_LABELS.overwatch, emoji: GAME_EMOJI.overwatch },
+const GAMES: { value: Game | "all"; label: string }[] = [
+  { value: "all",       label: "전체 게임" },
+  { value: "pubg",      label: GAME_LABELS.pubg      },
+  { value: "lol",       label: GAME_LABELS.lol       },
+  { value: "overwatch", label: GAME_LABELS.overwatch },
+  { value: "valorant",  label: GAME_LABELS.valorant  },
+  { value: "tft",       label: GAME_LABELS.tft       },
 ];
 
 const LEVELS: { value: EnglishLevel | "all"; label: string }[] = [
@@ -44,7 +47,7 @@ export default function RoomFilter() {
                 : "bg-gray-50 border-gray-200 text-gray-500 hover:border-accent hover:text-accent"
             }`}
           >
-            {g.emoji && <span className="mr-1">{g.emoji}</span>}{g.label}
+            {g.value !== "all" && <GameIcon game={g.value as Game} className="w-4 h-4 mr-1" />}{g.label}
           </button>
         ))}
       </div>

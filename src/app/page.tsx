@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import { createClient } from "@/lib/supabase/server";
 import RoomCard from "@/components/rooms/RoomCard";
 import RoomFilter from "@/components/rooms/RoomFilter";
+import GameIcon from "@/components/GameIcon";
 import { Room } from "@/types";
 import Link from "next/link";
 
@@ -74,7 +75,7 @@ export default async function HomePage({ searchParams }: PageProps) {
               <span className="text-accent">영어도 같이</span> 늘어요
             </h1>
             <p className="mt-4 text-gray-500 text-base leading-relaxed max-w-lg">
-              배틀그라운드 · 리그오브레전드 · 오버워치에서<br />
+              배틀그라운드 · 롤 · 오버워치 · 발로란트 · 롤토체스에서<br />
               영어로 소통하는 팀원을 찾아보세요.<br />
               <span className="text-gray-700 font-medium">억지로 외우는 영어 NO, 게임하면서 자연스럽게.</span>
             </p>
@@ -91,13 +92,15 @@ export default async function HomePage({ searchParams }: PageProps) {
 
           {/* Right: game cards */}
           <div className="flex flex-col gap-3 shrink-0 w-full lg:w-auto">
-            {[
-              { emoji: "🔫", name: "배틀그라운드 (PUBG)", desc: "스쿼드 · 듀오 모집", color: "border-yellow-300 bg-yellow-50" },
-              { emoji: "⚔️", name: "리그오브레전드", desc: "솔랭 파티 · 칼바람", color: "border-blue-200 bg-blue-50" },
-              { emoji: "🎯", name: "오버워치 2", desc: "경쟁전 팀 모집", color: "border-orange-200 bg-orange-50" },
-            ].map((g) => (
-              <div key={g.name} className={`flex items-center gap-4 border rounded-2xl px-5 py-4 ${g.color} min-w-[240px]`}>
-                <span className="text-3xl">{g.emoji}</span>
+            {([
+              { game: "pubg",      name: "배틀그라운드 (PUBG)", desc: "스쿼드 · 듀오 모집",  color: "border-yellow-300 bg-yellow-50"  },
+              { game: "lol",       name: "리그오브레전드",       desc: "솔랭 파티 · 칼바람", color: "border-blue-200 bg-blue-50"      },
+              { game: "overwatch", name: "오버워치 2",           desc: "경쟁전 팀 모집",     color: "border-orange-200 bg-orange-50"  },
+              { game: "valorant",  name: "발로란트",             desc: "랭크 · 일반 모집",   color: "border-red-200 bg-red-50"        },
+              { game: "tft",       name: "롤토체스 (TFT)",       desc: "오래 하기 · 고수 모집", color: "border-purple-200 bg-purple-50" },
+            ] as const).map((g) => (
+              <div key={g.game} className={`flex items-center gap-4 border rounded-2xl px-5 py-4 ${g.color} min-w-[240px]`}>
+                <GameIcon game={g.game} className="w-12 h-12" />
                 <div>
                   <p className="text-sm font-extrabold text-gray-900">{g.name}</p>
                   <p className="text-xs text-gray-500 mt-0.5">{g.desc}</p>
@@ -151,14 +154,14 @@ export default async function HomePage({ searchParams }: PageProps) {
         <div className="max-w-5xl mx-auto px-6 py-12">
           <div className="flex flex-col lg:flex-row items-center gap-10">
             <div className="flex-1">
-              <span className="text-xs font-bold text-accent uppercase tracking-widest">왜 게임톡인가요?</span>
+              <span className="text-xs font-bold text-accent uppercase tracking-widest">왜 게임스피킹인가요?</span>
               <h2 className="text-2xl font-extrabold text-gray-900 mt-2 mb-4 leading-snug">
                 영어 학원 말고,<br />
                 <span className="text-accent">게임으로 배우세요</span>
               </h2>
               <p className="text-gray-500 text-sm leading-relaxed mb-6">
                 게임 안에서는 자연스럽게 영어를 쓰게 됩니다. 공격, 수비, 작전 — 실전 상황에서 배운 영어는 잊히지 않아요.
-                게임톡은 영어 학습 앱이 아닙니다. 그냥 게임을 즐기다 보면 영어가 늘어 있어요.
+                게임스피킹은 영어 학습 앱이 아닙니다. 그냥 게임을 즐기다 보면 영어가 늘어 있어요.
               </p>
               <ul className="space-y-3">
                 {[

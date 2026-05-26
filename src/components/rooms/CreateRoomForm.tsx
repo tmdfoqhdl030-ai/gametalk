@@ -3,9 +3,10 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Button from "@/components/ui/Button";
-import { Game, EnglishLevel, GAME_LABELS, GAME_EMOJI, LEVEL_LABELS } from "@/types";
+import GameIcon from "@/components/GameIcon";
+import { Game, EnglishLevel, GAME_LABELS, LEVEL_LABELS } from "@/types";
 
-const GAMES: Game[] = ["pubg", "lol", "overwatch"];
+const GAMES: Game[] = ["pubg", "lol", "overwatch", "valorant", "tft"];
 const LEVELS: EnglishLevel[] = ["beginner", "intermediate", "advanced"];
 
 export default function CreateRoomForm() {
@@ -64,13 +65,14 @@ export default function CreateRoomForm() {
               key={g}
               type="button"
               onClick={() => setForm({ ...form, game: g })}
-              className={`py-2.5 rounded-lg text-sm font-medium border transition-all ${
+              className={`flex items-center justify-center gap-1.5 py-2.5 rounded-lg text-sm font-medium border transition-all ${
                 form.game === g
                   ? "bg-accent text-white border-accent font-bold"
                   : "bg-gray-50 text-gray-600 border-gray-200 hover:border-accent hover:text-accent"
               }`}
             >
-              {GAME_EMOJI[g]} {GAME_LABELS[g]}
+              <GameIcon game={g} className="w-5 h-5" />
+              {GAME_LABELS[g]}
             </button>
           ))}
         </div>

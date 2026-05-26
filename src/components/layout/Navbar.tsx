@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { User } from "@/types";
+import AnimalAvatar from "@/components/AnimalAvatar";
 
 interface NavbarProps {
   user: User | null;
@@ -22,7 +23,7 @@ export default function Navbar({ user }: NavbarProps) {
     <nav className="sticky top-0 z-50 bg-white border-b border-gray-200 h-14">
       <div className="max-w-5xl mx-auto px-6 h-full flex items-center gap-8">
         <Link href="/" className="font-extrabold text-xl text-accent tracking-tight">
-          게임<span className="text-gray-900">톡</span>
+          게임<span className="text-gray-900">스피킹</span>
         </Link>
 
         <div className="flex items-center gap-1 flex-1">
@@ -36,10 +37,10 @@ export default function Navbar({ user }: NavbarProps) {
                 + 방 만들기
               </Link>
               <div className="flex items-center gap-2 pl-2 border-l border-gray-200">
-                <div className="w-8 h-8 rounded-full bg-accent flex items-center justify-center text-white text-sm font-extrabold shrink-0">
-                  {user.nickname.charAt(0).toUpperCase()}
-                </div>
-                <span className="text-sm font-bold text-gray-900 max-w-[100px] truncate">{user.nickname}</span>
+                <Link href={`/profile/${user.id}`} className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+                  <AnimalAvatar animalId={user.avatar_animal} size="sm" />
+                  <span className="text-sm font-bold text-gray-900 max-w-[100px] truncate">{user.nickname}</span>
+                </Link>
                 <button
                   onClick={handleSignOut}
                   className="text-xs text-gray-400 hover:text-red-500 transition-colors ml-1"
