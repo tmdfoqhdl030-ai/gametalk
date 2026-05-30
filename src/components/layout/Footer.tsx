@@ -112,12 +112,12 @@ export default function Footer() {
           <h3 className="text-sm font-bold text-white">고객지원</h3>
           <ul className="space-y-2.5 text-sm">
             {[
-              { href: "#", label: "서비스 소개"     },
-              { href: "#", label: "이용약관"         },
-              { href: "#", label: "개인정보처리방침" },
-              { href: "#", label: "자주 묻는 질문"   },
-              { href: "#", label: "이메일 문의"       },
-              { href: "#", label: "Discord 서버"      },
+              { href: "/notices",  label: "공지사항"          },
+              { href: "/terms",    label: "이용약관"           },
+              { href: "/privacy",  label: "개인정보처리방침"   },
+              { href: "/events",   label: "이벤트"             },
+              { href: "mailto:contact@gametalk.gg", label: "이메일 문의" },
+              { href: "https://discord.gg", label: "Discord 서버" },
             ].map((item) => (
               <li key={item.label}>
                 <Link href={item.href}
@@ -154,26 +154,24 @@ export default function Footer() {
         <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
           <div className="text-xs text-gray-500 space-y-1.5 leading-relaxed">
             <p className="flex flex-wrap items-center gap-x-3 gap-y-1">
-              <span className="font-semibold text-gray-400">게임톡 (GameTalk)</span>
+              <span className="font-semibold text-gray-400">게임스피킹 (GameSpeaking)</span>
               <span>|</span>
               <span>서비스 운영팀</span>
               <span>|</span>
               <span>이메일: contact@gametalk.gg</span>
             </p>
             <p className="flex flex-wrap items-center gap-x-3 gap-y-1">
-              <Link href="#" className="hover:text-gray-300 transition-colors">이용약관</Link>
+              <Link href="/terms" className="hover:text-gray-300 transition-colors">이용약관</Link>
               <span>|</span>
-              <Link href="#" className="hover:text-gray-300 transition-colors">개인정보처리방침</Link>
-              <span>|</span>
-              <Link href="#" className="hover:text-gray-300 transition-colors">쿠키 정책</Link>
+              <Link href="/privacy" className="hover:text-gray-300 transition-colors">개인정보처리방침</Link>
             </p>
             <p>
-              게임톡은 Riot Games, Blizzard Entertainment, Krafton과 공식 제휴 관계가 아닙니다.<br className="hidden sm:block" />
+              게임스피킹은 Riot Games, Blizzard Entertainment, Krafton과 공식 제휴 관계가 아닙니다.<br className="hidden sm:block" />
               각 게임의 상표 및 저작권은 해당 회사에 귀속됩니다.
             </p>
           </div>
           <p className="text-xs text-gray-600 shrink-0">
-            © 2025 GameTalk. All rights reserved.
+            © 2026 게임스피킹. All rights reserved.
           </p>
         </div>
       </div>

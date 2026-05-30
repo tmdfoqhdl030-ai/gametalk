@@ -5,10 +5,54 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { User } from "@/types";
 import BottomStickyAd from "@/components/ui/BottomStickyAd";
+import GoogleAnalytics from "@/components/GoogleAnalytics";
+
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://gametalk.vercel.app";
 
 export const metadata: Metadata = {
-  title: "게임스피킹 — 게임하면서 영어 실력 UP",
-  description: "배틀그라운드, 리그오브레전드, 오버워치를 영어로 함께 즐길 팀원을 찾아보세요",
+  metadataBase: new URL(BASE_URL),
+  title: {
+    default: "게임스피킹 — 게임하면서 영어 실력 UP",
+    template: "%s — 게임스피킹",
+  },
+  description: "배틀그라운드, 롤, 오버워치, 발로란트에서 영어로 소통하는 팀원을 찾아보세요. 게임하면서 자연스럽게 영어 실력이 올라갑니다.",
+  keywords: ["게임 영어", "팀원 모집", "배틀그라운드 영어", "롤 영어", "오버워치 영어", "발로란트 영어", "영어 게이머", "게임스피킹"],
+  authors: [{ name: "게임스피킹" }],
+  creator: "게임스피킹",
+  openGraph: {
+    type: "website",
+    locale: "ko_KR",
+    url: BASE_URL,
+    siteName: "게임스피킹",
+    title: "게임스피킹 — 게임하면서 영어 실력 UP",
+    description: "배틀그라운드, 롤, 오버워치, 발로란트에서 영어로 소통하는 팀원을 찾아보세요.",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "게임스피킹 — 게임하면서 영어 팀원 모집",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "게임스피킹 — 게임하면서 영어 실력 UP",
+    description: "게임하면서 영어로 소통하는 팀원을 찾아보세요.",
+    images: ["/og-image.png"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+    },
+  },
+  verification: {
+    // google: "추후 Google Search Console에서 발급받은 코드 입력",
+  },
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
@@ -79,6 +123,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <html lang="ko">
       <body>
+        <GoogleAnalytics />
         <Navbar user={user} />
         <main>{children}</main>
         <Footer />
