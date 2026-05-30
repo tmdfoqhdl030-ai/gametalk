@@ -26,6 +26,21 @@ export default function ProfileEditPage() {
   const [favoriteGames, setFavoriteGames] = useState<Game[]>([]);
   const [avatarAnimal, setAvatarAnimal] = useState("cat");
 
+  // 게임 계정명 및 티어 상태
+  const [lolUser, setLolUser] = useState("");
+  const [pubgUser, setPubgUser] = useState("");
+  const [overwatchUser, setOverwatchUser] = useState("");
+  const [valorantUser, setValorantUser] = useState("");
+  const [tftUser, setTftUser] = useState("");
+
+  const [lolTier, setLolTier] = useState("");
+  const [pubgTier, setPubgTier] = useState("");
+  const [overwatchTier, setOverwatchTier] = useState("");
+  const [valorantTier, setValorantTier] = useState("");
+  const [tftTier, setTftTier] = useState("");
+
+  const [syncingGame, setSyncingGame] = useState<string | null>(null);
+
   useEffect(() => {
     (async () => {
       const { data: { user: authUser } } = await supabase.auth.getUser();
@@ -40,6 +55,13 @@ export default function ProfileEditPage() {
         setMbti(data.mbti ?? "");
         setFavoriteGames(data.favorite_games ?? []);
         setAvatarAnimal(data.avatar_animal ?? "cat");
+
+        // 티어 로딩
+        setLolTier(data.lol_tier ?? "");
+        setPubgTier(data.pubg_tier ?? "");
+        setOverwatchTier(data.overwatch_tier ?? "");
+        setValorantTier(data.valorant_tier ?? "");
+        setTftTier(data.tft_tier ?? "");
       }
       setLoading(false);
     })();
@@ -49,6 +71,37 @@ export default function ProfileEditPage() {
     setFavoriteGames((prev) =>
       prev.includes(game) ? prev.filter((g) => g !== game) : [...prev, game]
     );
+  }
+
+  async function syncTier(game: string, username: string) {
+    if (!username.trim()) {
+      alert("동기화할 게임 아이디 또는 플레이어 태그를 먼저 입력해주세요.");
+      return;
+    }
+    setSyncingGame(game);
+    try {
+      const res = await fetch("/api/profile/sync-tier", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ game, username: username.trim() }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        if (game === "lol") setLolTier(data.tier);
+        else if (game === "pubg") setPubgTier(data.tier);
+        else if (game === "overwatch") setOverwatchTier(data.tier);
+        else if (game === "valorant") setValorantTier(data.tier);
+        else if (game === "tft") setTftTier(data.tier);
+        alert(`🎉 ${GAME_LABELS[game as Game]} 실시간 전적/티어 동기화 완료: ${data.tier}`);
+      } else {
+        alert(`⚠️ 동기화 실패: ${data.error}`);
+      }
+    } catch (err) {
+      console.error(err);
+      alert("API 서버 통신 중 오류가 발생했습니다.");
+    } finally {
+      setSyncingGame(null);
+    }
   }
 
   async function handleSubmit(e: React.FormEvent) {
@@ -67,6 +120,11 @@ export default function ProfileEditPage() {
         mbti: mbti || null,
         favorite_games: favoriteGames,
         avatar_animal: avatarAnimal,
+        lol_tier: lolTier || null,
+        pubg_tier: pubgTier || null,
+        overwatch_tier: overwatchTier || null,
+        valorant_tier: valorantTier || null,
+        tft_tier: tftTier || null,
       }),
     });
 
@@ -111,8 +169,8 @@ export default function ProfileEditPage() {
                 {ANIMALS.find(a => a.id === avatarAnimal)?.name}
               </p>
             </div>
-            {/* 동물 선택 그리드 */}
-            <div className="grid grid-cols-6 gap-2">
+            {/* 동물 선택 그리드 - 6열 3행 */}
+            <div className="grid grid-cols-6 gap-2.5">
               {ANIMALS.map((animal) => {
                 const selected = avatarAnimal === animal.id;
                 return (
@@ -246,6 +304,141 @@ export default function ProfileEditPage() {
                   {GAME_LABELS[game]}
                 </button>
               ))}
+            </div>
+          </section>
+
+          {/* 실시간 게임 티어 연동 */}
+          <section className="bg-white rounded-2xl border border-gray-200 p-5 space-y-4">
+            <div>
+              <h2 className="text-sm font-bold text-gray-700">실시간 게임 티어 연동</h2>
+              <p className="text-xs text-gray-400 mt-0.5">인증할 게임 아이디를 입력하고 동기화 버튼을 누르세요</p>
+            </div>
+
+            <div className="space-y-3.5">
+              {/* LOL */}
+              <div className="flex flex-col gap-1.5 p-3 rounded-xl bg-gray-50 border border-gray-100">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-bold text-gray-700 flex items-center gap-1">⚔️ 리그오브레전드</span>
+                  <span className="text-xs font-bold text-accent">{lolTier ? `🏆 ${lolTier}` : "연동 안됨"}</span>
+                </div>
+                <div className="flex gap-2 mt-1">
+                  <input
+                    type="text"
+                    value={lolUser}
+                    onChange={(e) => setLolUser(e.target.value)}
+                    placeholder="소환사명#태그 입력"
+                    className="flex-1 px-3 py-1.5 border border-gray-200 rounded-lg text-xs bg-white focus:outline-none focus:border-accent"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => syncTier("lol", lolUser)}
+                    disabled={syncingGame !== null}
+                    className="px-3.5 py-1.5 bg-accent text-white text-xs font-bold rounded-lg hover:bg-accent-hover transition-colors disabled:opacity-50"
+                  >
+                    {syncingGame === "lol" ? "동기화중..." : "동기화"}
+                  </button>
+                </div>
+              </div>
+
+              {/* PUBG */}
+              <div className="flex flex-col gap-1.5 p-3 rounded-xl bg-gray-50 border border-gray-100">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-bold text-gray-700 flex items-center gap-1">🪖 배틀그라운드</span>
+                  <span className="text-xs font-bold text-accent">{pubgTier ? `🏆 ${pubgTier}` : "연동 안됨"}</span>
+                </div>
+                <div className="flex gap-2 mt-1">
+                  <input
+                    type="text"
+                    value={pubgUser}
+                    onChange={(e) => setPubgUser(e.target.value)}
+                    placeholder="배틀그라운드 캐릭터명 입력"
+                    className="flex-1 px-3 py-1.5 border border-gray-200 rounded-lg text-xs bg-white focus:outline-none focus:border-accent"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => syncTier("pubg", pubgUser)}
+                    disabled={syncingGame !== null}
+                    className="px-3.5 py-1.5 bg-accent text-white text-xs font-bold rounded-lg hover:bg-accent-hover transition-colors disabled:opacity-50"
+                  >
+                    {syncingGame === "pubg" ? "동기화중..." : "동기화"}
+                  </button>
+                </div>
+              </div>
+
+              {/* Overwatch */}
+              <div className="flex flex-col gap-1.5 p-3 rounded-xl bg-gray-50 border border-gray-100">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-bold text-gray-700 flex items-center gap-1">🎯 오버워치 2</span>
+                  <span className="text-xs font-bold text-accent">{overwatchTier ? `🏆 ${overwatchTier}` : "연동 안됨"}</span>
+                </div>
+                <div className="flex gap-2 mt-1">
+                  <input
+                    type="text"
+                    value={overwatchUser}
+                    onChange={(e) => setOverwatchUser(e.target.value)}
+                    placeholder="BattleTag#숫자 입력"
+                    className="flex-1 px-3 py-1.5 border border-gray-200 rounded-lg text-xs bg-white focus:outline-none focus:border-accent"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => syncTier("overwatch", overwatchUser)}
+                    disabled={syncingGame !== null}
+                    className="px-3.5 py-1.5 bg-accent text-white text-xs font-bold rounded-lg hover:bg-accent-hover transition-colors disabled:opacity-50"
+                  >
+                    {syncingGame === "overwatch" ? "동기화중..." : "동기화"}
+                  </button>
+                </div>
+              </div>
+
+              {/* Valorant */}
+              <div className="flex flex-col gap-1.5 p-3 rounded-xl bg-gray-50 border border-gray-100">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-bold text-gray-700 flex items-center gap-1">🎯 발로란트</span>
+                  <span className="text-xs font-bold text-accent">{valorantTier ? `🏆 ${valorantTier}` : "연동 안됨"}</span>
+                </div>
+                <div className="flex gap-2 mt-1">
+                  <input
+                    type="text"
+                    value={valorantUser}
+                    onChange={(e) => setValorantUser(e.target.value)}
+                    placeholder="플레이어명#태그 입력"
+                    className="flex-1 px-3 py-1.5 border border-gray-200 rounded-lg text-xs bg-white focus:outline-none focus:border-accent"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => syncTier("valorant", valorantUser)}
+                    disabled={syncingGame !== null}
+                    className="px-3.5 py-1.5 bg-accent text-white text-xs font-bold rounded-lg hover:bg-accent-hover transition-colors disabled:opacity-50"
+                  >
+                    {syncingGame === "valorant" ? "동기화중..." : "동기화"}
+                  </button>
+                </div>
+              </div>
+
+              {/* TFT */}
+              <div className="flex flex-col gap-1.5 p-3 rounded-xl bg-gray-50 border border-gray-100">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-bold text-gray-700 flex items-center gap-1">♟️ 롤토체스</span>
+                  <span className="text-xs font-bold text-accent">{tftTier ? `🏆 ${tftTier}` : "연동 안됨"}</span>
+                </div>
+                <div className="flex gap-2 mt-1">
+                  <input
+                    type="text"
+                    value={tftUser}
+                    onChange={(e) => setTftUser(e.target.value)}
+                    placeholder="소환사명#태그 입력"
+                    className="flex-1 px-3 py-1.5 border border-gray-200 rounded-lg text-xs bg-white focus:outline-none focus:border-accent"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => syncTier("tft", tftUser)}
+                    disabled={syncingGame !== null}
+                    className="px-3.5 py-1.5 bg-accent text-white text-xs font-bold rounded-lg hover:bg-accent-hover transition-colors disabled:opacity-50"
+                  >
+                    {syncingGame === "tft" ? "동기화중..." : "동기화"}
+                  </button>
+                </div>
+              </div>
             </div>
           </section>
 

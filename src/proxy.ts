@@ -25,10 +25,13 @@ export async function proxy(request: NextRequest) {
     }
   );
 
+  // IMPORTANT: This call refreshes the Supabase session and propagates auth cookies.
+  // Do NOT remove this line.
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
+  // Protected routes that require login
   const protectedPaths = ["/rooms/new"];
   const isProtected = protectedPaths.some((p) =>
     request.nextUrl.pathname.startsWith(p)

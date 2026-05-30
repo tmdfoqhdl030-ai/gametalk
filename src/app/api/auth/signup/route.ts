@@ -13,11 +13,27 @@ export async function POST(request: NextRequest) {
 
   const admin = createAdminClient();
 
-  const { data, error } = await admin.auth.admin.createUser({
+  // 1. 닉네임 중복 검사
+  const { data: existingUser } = await admin
+    .from("users")
+    .select("id")
+    .eq("nickname", nickname)
+    .single();
+
+  if (existingUser) {
+    return NextResponse.json({ error: "이미 사용 중인 닉네임입니다." }, { status: 400 });
+  }
+
+  // DB 스키마 업데이트가 누락된 경우를 대비한 방어 로직 (제약 조건 오류 방지)
+  const validDbLevels = ['beginner', 'intermediate', 'advanced'];
+  const dbEnglishLevel = validDbLevels.includes(english_level) ? english_level : 'beginner';
+
+  // 2. 사용자 계정 생성 (트리거가 알아서 users 테이블에 삽입함)
+  const { error } = await admin.auth.admin.createUser({
     email,
     password,
     email_confirm: true,
-    user_metadata: { nickname, english_level },
+    user_metadata: { nickname, english_level: dbEnglishLevel },
   });
 
   if (error) {
@@ -26,14 +42,6 @@ export async function POST(request: NextRequest) {
     }
     return NextResponse.json({ error: error.message }, { status: 400 });
   }
-
-  // trigger가 실패할 경우를 대비해 직접 삽입
-  await admin.from("users").upsert({
-    id: data.user.id,
-    email,
-    nickname,
-    english_level,
-  });
 
   return NextResponse.json({ ok: true });
 }

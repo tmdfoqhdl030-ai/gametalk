@@ -8,7 +8,20 @@ export async function PATCH(request: NextRequest) {
   if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   const body = await request.json();
-  const { nickname, english_level, age, gender, mbti, favorite_games, avatar_animal } = body;
+  const { 
+    nickname, 
+    english_level, 
+    age, 
+    gender, 
+    mbti, 
+    favorite_games, 
+    avatar_animal,
+    lol_tier,
+    pubg_tier,
+    overwatch_tier,
+    valorant_tier,
+    tft_tier
+  } = body;
 
   const updates: Record<string, unknown> = {};
   if (nickname !== undefined) updates.nickname = nickname;
@@ -18,6 +31,11 @@ export async function PATCH(request: NextRequest) {
   if (mbti !== undefined) updates.mbti = mbti;
   if (favorite_games !== undefined) updates.favorite_games = favorite_games;
   if (avatar_animal !== undefined) updates.avatar_animal = avatar_animal;
+  if (lol_tier !== undefined) updates.lol_tier = lol_tier;
+  if (pubg_tier !== undefined) updates.pubg_tier = pubg_tier;
+  if (overwatch_tier !== undefined) updates.overwatch_tier = overwatch_tier;
+  if (valorant_tier !== undefined) updates.valorant_tier = valorant_tier;
+  if (tft_tier !== undefined) updates.tft_tier = tft_tier;
 
   const { data, error } = await supabase
     .from("users")

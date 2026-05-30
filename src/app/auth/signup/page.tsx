@@ -41,7 +41,6 @@ export default function SignupPage() {
       return;
     }
 
-    // 계정 생성 후 클라이언트에서 직접 로그인 (세션 쿠키 정상 설정)
     const { error: signInError } = await supabase.auth.signInWithPassword({
       email: form.email,
       password: form.password,
@@ -58,15 +57,17 @@ export default function SignupPage() {
     router.refresh();
   }
 
+
+
   return (
-    <div className="min-h-[80vh] flex items-center justify-center px-6">
+    <div className="min-h-[80vh] flex items-center justify-center px-6 py-10">
       <div className="w-full max-w-sm">
         <div className="text-center mb-8">
-          <Link href="/" className="text-2xl font-extrabold text-accent">게임<span className="text-gray-900">톡</span></Link>
+          <Link href="/" className="text-2xl font-extrabold text-accent">게임<span className="text-gray-900">스피킹</span></Link>
           <p className="text-sm text-gray-400 mt-2">게임하면서 자연스럽게 영어 실력 UP</p>
         </div>
 
-        <div className="bg-white border border-gray-200 rounded-xl p-6">
+        <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label className="block text-xs font-bold text-gray-600 mb-1.5">이메일 *</label>
@@ -108,19 +109,19 @@ export default function SignupPage() {
 
             <div>
               <label className="block text-xs font-bold text-gray-600 mb-1.5">현재 영어 레벨 *</label>
-              <div className="grid grid-cols-3 gap-2">
+              <div className="grid grid-cols-3 gap-1.5">
                 {LEVELS.map((l) => (
                   <button
                     key={l}
                     type="button"
                     onClick={() => setForm({ ...form, english_level: l })}
-                    className={`py-2 rounded-lg text-xs font-medium border transition-all ${
+                    className={`py-2 rounded-lg text-[10px] font-bold border transition-all ${
                       form.english_level === l
                         ? "bg-accent text-white border-accent font-bold"
                         : "bg-gray-50 text-gray-600 border-gray-200 hover:border-accent hover:text-accent"
                     }`}
                   >
-                    {LEVEL_LABELS[l]}
+                    {LEVEL_LABELS[l]?.split(" ")[0]}
                   </button>
                 ))}
               </div>
@@ -132,6 +133,8 @@ export default function SignupPage() {
               무료 가입하기
             </Button>
           </form>
+
+
         </div>
 
         <p className="text-center text-sm text-gray-400 mt-4">

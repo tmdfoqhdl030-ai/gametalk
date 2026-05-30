@@ -26,8 +26,43 @@ export default function Navbar({ user }: NavbarProps) {
           게임<span className="text-gray-900">스피킹</span>
         </Link>
 
-        <div className="flex items-center gap-1 flex-1">
-          <Link href="/" className="px-3 py-1.5 text-sm font-medium text-gray-500 hover:text-gray-900 rounded-md hover:bg-gray-100">홈</Link>
+        <div className="flex items-center gap-2 flex-1">
+          <Link 
+            href="/" 
+            className="px-3 py-1.5 text-sm font-bold text-gray-600 hover:text-accent rounded-lg hover:bg-gray-50 transition-all"
+          >
+            🏠 홈
+          </Link>
+          
+          <Link 
+            href="/notices" 
+            className="px-3 py-1.5 text-sm font-bold text-gray-600 hover:text-accent rounded-lg hover:bg-gray-50 transition-all"
+          >
+            📢 공지사항
+          </Link>
+          
+          <Link 
+            href="/community" 
+            className="px-3 py-1.5 text-sm font-bold text-gray-600 hover:text-accent rounded-lg hover:bg-gray-50 transition-all"
+          >
+            💬 자유게시판
+          </Link>
+          
+          <Link 
+            href="/events" 
+            className="px-3 py-1.5 text-sm font-bold text-gray-600 hover:text-accent rounded-lg hover:bg-gray-50 transition-all"
+          >
+            🏆 주간 이벤트
+          </Link>
+          
+          {user?.is_admin && (
+            <Link 
+              href="/admin" 
+              className="px-3 py-1.5 text-sm font-black text-red-600 bg-red-50 border border-red-100 rounded-lg hover:bg-red-100 hover:text-red-700 transition-all flex items-center gap-1"
+            >
+              🛡️ 관리자 콘솔
+            </Link>
+          )}
         </div>
 
         <div className="flex items-center gap-2">

@@ -14,10 +14,10 @@ const GAMES: { value: Game | "all"; label: string }[] = [
 ];
 
 const LEVELS: { value: EnglishLevel | "all"; label: string }[] = [
-  { value: "all", label: "전체 레벨" },
-  { value: "beginner", label: LEVEL_LABELS.beginner },
-  { value: "intermediate", label: LEVEL_LABELS.intermediate },
-  { value: "advanced", label: LEVEL_LABELS.advanced },
+  { value: "all",          label: "전체 레벨" },
+  { value: "beginner",     label: "초급" },
+  { value: "intermediate", label: "중급" },
+  { value: "advanced",     label: "고급" },
 ];
 
 export default function RoomFilter() {

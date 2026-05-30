@@ -4,6 +4,8 @@ import { Room, GAME_LABELS, GAME_EMOJI, LEVEL_LABELS } from "@/types";
 import ChatBox from "@/components/chat/ChatBox";
 import RoomActions from "./RoomActions";
 import ShareButton from "@/components/ShareButton";
+import RoomAdTrigger from "@/components/rooms/RoomAdTrigger";
+import ReportButton from "@/components/rooms/ReportButton";
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -46,14 +48,24 @@ export default async function RoomPage({ params }: PageProps) {
   const isHost = room.host_id === authUser?.id;
   const memberCount = room.room_members.length;
 
-  const LEVEL_COLORS = {
-    beginner: "bg-green-100 text-green-800",
-    intermediate: "bg-blue-100 text-blue-800",
-    advanced: "bg-red-100 text-red-800",
+  const LEVEL_COLORS: Record<string, string> = {
+    beginner: "bg-green-50 text-green-700 border border-green-200",
+    intermediate: "bg-blue-50 text-blue-700 border border-blue-200",
+    advanced: "bg-red-50 text-red-700 border border-red-200",
+    iron: "bg-slate-50 text-slate-600 border border-slate-200",
+    bronze: "bg-amber-50 text-amber-700 border border-amber-200",
+    silver: "bg-zinc-50 text-zinc-600 border border-zinc-200",
+    gold: "bg-yellow-50 text-yellow-700 border border-yellow-200 font-bold",
+    platinum: "bg-teal-50 text-teal-700 border border-teal-200 font-bold",
+    diamond: "bg-sky-50 text-sky-700 border border-sky-200 font-extrabold",
+    master: "bg-purple-50 text-purple-700 border border-purple-200 font-extrabold",
+    grandmaster: "bg-red-50 text-red-700 border border-red-200 font-extrabold animate-pulse",
+    challenger: "bg-blue-50 text-blue-700 border border-blue-200 font-black animate-pulse"
   };
 
   return (
     <div className="max-w-5xl mx-auto px-6 py-8">
+      <RoomAdTrigger />
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left: Room info + member list */}
         <div className="lg:col-span-1 space-y-4">
@@ -97,19 +109,28 @@ export default async function RoomPage({ params }: PageProps) {
             <p className="text-xs font-bold text-gray-400 uppercase mb-3">참여자 ({memberCount}명)</p>
             <ul className="space-y-2">
               {room.room_members.map((m) => (
-                <li key={m.user_id} className="flex items-center gap-2">
-                  <div className="w-7 h-7 rounded-full bg-accent flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
-                    {m.user.nickname[0].toUpperCase()}
+                <li key={m.user_id} className="flex items-center justify-between gap-2 p-1 rounded-lg hover:bg-gray-50/50 transition-colors">
+                  <div className="flex items-center gap-2">
+                    <div className="w-7 h-7 rounded-full bg-accent flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
+                      {m.user.nickname[0].toUpperCase()}
+                    </div>
+                    <div>
+                      <p className="text-sm font-medium text-gray-900 flex items-center gap-1">
+                        {m.user.nickname}
+                        {m.user_id === room.host_id && (
+                          <span className="text-xs bg-yellow-100 text-yellow-700 px-1.5 py-0.5 rounded font-bold">방장</span>
+                        )}
+                      </p>
+                      <p className="text-xs text-gray-400">{LEVEL_LABELS[m.user.english_level as keyof typeof LEVEL_LABELS] ?? m.user.english_level}</p>
+                    </div>
                   </div>
-                  <div>
-                    <p className="text-sm font-medium text-gray-900 flex items-center gap-1">
-                      {m.user.nickname}
-                      {m.user_id === room.host_id && (
-                        <span className="text-xs bg-yellow-100 text-yellow-700 px-1.5 py-0.5 rounded font-bold">방장</span>
-                      )}
-                    </p>
-                    <p className="text-xs text-gray-400">{LEVEL_LABELS[m.user.english_level as keyof typeof LEVEL_LABELS]}</p>
-                  </div>
+                  {authUser && m.user_id !== authUser.id && (
+                    <ReportButton
+                      roomId={id}
+                      reportedId={m.user_id}
+                      reportedName={m.user.nickname}
+                    />
+                  )}
                 </li>
               ))}
             </ul>

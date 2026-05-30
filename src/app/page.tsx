@@ -6,6 +6,7 @@ import GameIcon from "@/components/GameIcon";
 import { Room } from "@/types";
 import Link from "next/link";
 
+
 interface PageProps {
   searchParams: Promise<{ game?: string; level?: string }>;
 }
@@ -90,26 +91,51 @@ export default async function HomePage({ searchParams }: PageProps) {
             <p className="mt-4 text-xs text-gray-400">회원가입 무료 · 3초면 완료</p>
           </div>
 
-          {/* Right: game cards */}
-          <div className="flex flex-col gap-3 shrink-0 w-full lg:w-auto">
-            {([
-              { game: "pubg",      name: "배틀그라운드 (PUBG)", desc: "스쿼드 · 듀오 모집",  color: "border-yellow-300 bg-yellow-50"  },
-              { game: "lol",       name: "리그오브레전드",       desc: "솔랭 파티 · 칼바람", color: "border-blue-200 bg-blue-50"      },
-              { game: "overwatch", name: "오버워치 2",           desc: "경쟁전 팀 모집",     color: "border-orange-200 bg-orange-50"  },
-              { game: "valorant",  name: "발로란트",             desc: "랭크 · 일반 모집",   color: "border-red-200 bg-red-50"        },
-              { game: "tft",       name: "롤토체스 (TFT)",       desc: "오래 하기 · 고수 모집", color: "border-purple-200 bg-purple-50" },
-            ] as const).map((g) => (
-              <div key={g.game} className={`flex items-center gap-4 border rounded-2xl px-5 py-4 ${g.color} min-w-[240px]`}>
-                <GameIcon game={g.game} className="w-12 h-12" />
-                <div>
-                  <p className="text-sm font-extrabold text-gray-900">{g.name}</p>
-                  <p className="text-xs text-gray-500 mt-0.5">{g.desc}</p>
-                </div>
-              </div>
-            ))}
+          {/* Right: Modern Game Selection Grid */}
+          <div className="shrink-0 w-full lg:w-auto w-full max-w-sm bg-white border border-gray-200 p-5 rounded-3xl shadow-xs space-y-4">
+            <h3 className="text-xs font-black text-gray-400 uppercase tracking-widest text-center lg:text-left flex items-center gap-1.5 justify-center lg:justify-start">
+              <span>🎮</span> 게임별 빠른 매칭 필터
+            </h3>
+            <div className="grid grid-cols-2 gap-2">
+              {([
+                { game: "pubg",      name: "배그 (PUBG)", desc: "PUBG",      color: "hover:border-yellow-400 hover:bg-yellow-50/20"  },
+                { game: "lol",       name: "롤 (LoL)",    desc: "League",    color: "hover:border-blue-400 hover:bg-blue-50/20"      },
+                { game: "overwatch", name: "오버워치 2",  desc: "OW 2",      color: "hover:border-orange-400 hover:bg-orange-50/20"  },
+                { game: "valorant",  name: "발로란트",    desc: "Valorant",  color: "hover:border-red-400 hover:bg-red-50/20"        },
+                { game: "tft",       name: "롤토체스",    desc: "TFT",       color: "hover:border-purple-400 hover:bg-purple-50/20"  },
+              ] as const).map((g) => (
+                <Link
+                  key={g.game}
+                  href={`/?game=${g.game}#rooms`}
+                  className={`flex items-center gap-3 p-3 bg-gray-50 border border-gray-150 rounded-2xl transition-all duration-300 hover:scale-[1.03] hover:shadow-xs cursor-pointer group ${g.color}`}
+                >
+                  <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center border border-gray-100 group-hover:border-transparent transition-colors overflow-hidden flex-shrink-0">
+                    <GameIcon game={g.game} className="w-7 h-7" />
+                  </div>
+                  <div className="min-w-0">
+                    <p className="text-xs font-extrabold text-gray-900 group-hover:text-accent transition-colors leading-tight truncate">
+                      {g.name}
+                    </p>
+                    <p className="text-[8px] text-gray-400 font-bold tracking-wider mt-0.5 uppercase">
+                      {g.desc}
+                    </p>
+                  </div>
+                </Link>
+              ))}
+              
+              {/* All Games link */}
+              <Link
+                href="/#rooms"
+                className="flex items-center justify-center gap-2 p-3 bg-gray-100 hover:bg-gray-200 border border-transparent rounded-2xl transition-all duration-300 hover:scale-[1.03] cursor-pointer text-center text-[11px] font-black text-gray-600 hover:text-gray-900 flex-shrink-0"
+              >
+                🔄 전체 보기
+              </Link>
+            </div>
           </div>
         </div>
       </section>
+
+
 
       {/* ── How it works ── */}
       <section className="bg-white border-b border-gray-100 mt-2">
@@ -195,8 +221,29 @@ export default async function HomePage({ searchParams }: PageProps) {
         </div>
       </section>
 
+      {/* ── Google Ad Banner ── */}
+      <section className="max-w-5xl mx-auto px-6 py-4">
+        <div className="bg-white border border-gray-100 rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm hover:shadow-md transition-all duration-300">
+          <div className="flex items-center gap-4">
+            <span className="w-10 h-10 rounded-xl bg-accent-light text-accent flex items-center justify-center text-xl font-bold flex-shrink-0">📢</span>
+            <div>
+              <p className="text-sm font-extrabold text-gray-900 flex items-center gap-1.5">
+                OP.GG 프리미엄 멤버십 공식 오픈! 광고 없이 전적 검색
+                <span className="px-1.5 py-0.5 rounded bg-gray-150 text-[8px] font-bold text-gray-400">AD</span>
+              </p>
+              <p className="text-xs text-gray-500 mt-0.5">오직 게이머만을 위한 맞춤형 혜택과 광고 없는 전적 검색 기능을 누려보세요.</p>
+            </div>
+          </div>
+          <a href="https://op.gg" target="_blank" rel="noopener noreferrer" className="px-4 py-2 bg-accent text-white text-xs font-bold rounded-lg hover:bg-accent-hover transition-colors shrink-0 text-center w-full sm:w-auto">
+            멤버십 가입 ➔
+          </a>
+        </div>
+      </section>
+
+
+
       {/* ── Room List ── */}
-      <section className="max-w-5xl mx-auto px-6 py-10 space-y-4">
+      <section id="rooms" className="max-w-5xl mx-auto px-6 py-10 space-y-4 scroll-mt-20">
         <div className="flex items-center justify-between">
           <div>
             <h2 className="text-lg font-extrabold text-gray-900">지금 모집 중인 방</h2>

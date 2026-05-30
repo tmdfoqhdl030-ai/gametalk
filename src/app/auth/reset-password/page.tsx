@@ -35,7 +35,7 @@ export default function ResetPasswordPage() {
     <div className="min-h-[80vh] flex items-center justify-center px-6">
       <div className="w-full max-w-sm">
         <div className="text-center mb-8">
-          <Link href="/" className="text-2xl font-extrabold text-accent">게임<span className="text-gray-900">톡</span></Link>
+          <Link href="/" className="text-2xl font-extrabold text-accent">게임<span className="text-gray-900">스피킹</span></Link>
           <p className="text-sm text-gray-400 mt-2">비밀번호 재설정</p>
         </div>
 

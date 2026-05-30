@@ -57,8 +57,8 @@ export default function ChatBox({ roomId, currentUser, initialMessages }: ChatBo
 
   return (
     <div className="flex flex-col h-full">
-      <div className="bg-blue-50 border border-blue-200 rounded-lg px-4 py-2 mb-3 text-xs text-blue-700 font-medium">
-        📢 이 방에서는 <strong>영어만 사용</strong>해야 합니다. English only, please!
+      <div className="bg-blue-50 border border-blue-200 rounded-xl px-4 py-3 mb-3 text-xs text-blue-700 font-semibold leading-relaxed">
+        📢 이 방에서는 영어 소통을 지향합니다! 모르는 단어나 표현이 있다면 자연스럽게 <strong>한국어를 섞어서 사용해도 괜찮으니</strong> 부담 가지지 마시고 편하게 대화해 보세요! 🌱
       </div>
 
       <div className="flex-1 overflow-y-auto space-y-1 pr-1 min-h-0">

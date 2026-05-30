@@ -32,7 +32,7 @@ export async function GET(request: NextRequest) {
   return NextResponse.json({ rooms });
 }
 
-const GAME_EMOJI: Record<string, string> = { pubg: "🪖", lol: "⚔️", overwatch: "🎯" };
+const GAME_EMOJI: Record<string, string> = { pubg: "🪖", lol: "⚔️", overwatch: "🎯", valorant: "🎯", tft: "♟️" };
 
 async function createDiscordVoiceChannel(
   title: string,
@@ -41,7 +41,10 @@ async function createDiscordVoiceChannel(
 ): Promise<string | null> {
   const token = process.env.DISCORD_BOT_TOKEN;
   const guildId = process.env.DISCORD_GUILD_ID;
-  if (!token || !guildId) return null;
+  if (!token || !guildId) {
+    console.error("⚠️ createDiscordVoiceChannel: 토큰 또는 길드 ID 누락");
+    return null;
+  }
 
   try {
     const channelRes = await fetch(`https://discord.com/api/v10/guilds/${guildId}/channels`, {
@@ -53,7 +56,11 @@ async function createDiscordVoiceChannel(
         user_limit: max_players,
       }),
     });
-    if (!channelRes.ok) return null;
+    if (!channelRes.ok) {
+      const errBody = await channelRes.text();
+      console.error(`⚠️ Discord 채널 생성 실패 (HTTP ${channelRes.status}):`, errBody);
+      return null;
+    }
 
     const channel = await channelRes.json();
 
@@ -62,11 +69,16 @@ async function createDiscordVoiceChannel(
       headers: { Authorization: `Bot ${token}`, "Content-Type": "application/json" },
       body: JSON.stringify({ max_age: 86400, max_uses: max_players }),
     });
-    if (!inviteRes.ok) return null;
+    if (!inviteRes.ok) {
+      const errBody = await inviteRes.text();
+      console.error(`⚠️ Discord 초대장 생성 실패 (HTTP ${inviteRes.status}):`, errBody);
+      return null;
+    }
 
     const invite = await inviteRes.json();
     return `https://discord.gg/${invite.code}`;
-  } catch {
+  } catch (err) {
+    console.error("❌ createDiscordVoiceChannel 예외 발생:", err);
     return null;
   }
 }
@@ -77,8 +89,24 @@ export async function POST(request: NextRequest) {
 
   if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
+  // 계정 정지 여부 검증
+  const { data: profile } = await supabase
+    .from("users")
+    .select("suspended_until")
+    .eq("id", user.id)
+    .single();
+
+  if (profile?.suspended_until && new Date(profile.suspended_until) > new Date()) {
+    return NextResponse.json(
+      { error: `활동이 정지된 계정입니다. (정지 기한: ${new Date(profile.suspended_until).toLocaleString("ko-KR")})` },
+      { status: 403 }
+    );
+  }
+
   const body = await request.json();
   const { title, game, max_players, english_level } = body;
+
+  console.log(`[POST /api/rooms] 요청 수신: title="${title}", game="${game}", DISCORD_BOT_TOKEN 존재여부=${!!process.env.DISCORD_BOT_TOKEN}, DISCORD_GUILD_ID="${process.env.DISCORD_GUILD_ID}"`);
 
   if (!title || !game || !max_players || !english_level) {
     return NextResponse.json({ error: "Missing required fields" }, { status: 400 });

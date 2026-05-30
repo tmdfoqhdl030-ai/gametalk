@@ -10,6 +10,20 @@ export async function POST(_req: NextRequest, { params }: { params: Promise<{ id
 
   if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
+  // 계정 정지 여부 검증
+  const { data: profile } = await supabase
+    .from("users")
+    .select("suspended_until")
+    .eq("id", user.id)
+    .single();
+
+  if (profile?.suspended_until && new Date(profile.suspended_until) > new Date()) {
+    return NextResponse.json(
+      { error: `활동이 정지된 계정입니다. (정지 기한: ${new Date(profile.suspended_until).toLocaleString("ko-KR")})` },
+      { status: 403 }
+    );
+  }
+
   const { data: room } = await supabase
     .from("rooms")
     .select("status")
