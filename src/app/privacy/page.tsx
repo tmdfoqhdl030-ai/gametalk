@@ -119,7 +119,7 @@ export default function PrivacyPage() {
             마이페이지에서 직접 수정하거나, 아래 이메일로 요청하시면 지체 없이 처리합니다.
           </p>
           <div className="mt-3 px-4 py-3 bg-accent-light rounded-xl text-sm">
-            📧 개인정보 처리 문의: <strong>contact@gametalk.gg</strong>
+            📧 개인정보 처리 문의: <strong>tmdfoqhdl@naver.com</strong>
           </div>
         </section>
 
@@ -135,7 +135,7 @@ export default function PrivacyPage() {
           <h2 className="text-lg font-bold text-gray-900 mb-3">9. 개인정보 보호책임자</h2>
           <div className="bg-gray-50 rounded-xl p-4 border border-gray-100 text-sm space-y-1">
             <p><span className="font-bold">담당자:</span> 게임스피킹 운영팀</p>
-            <p><span className="font-bold">이메일:</span> contact@gametalk.gg</p>
+            <p><span className="font-bold">이메일:</span> tmdfoqhdl@naver.com</p>
           </div>
         </section>
 

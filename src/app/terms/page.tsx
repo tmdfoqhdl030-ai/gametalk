@@ -117,7 +117,7 @@ export default function TermsPage() {
         </section>
 
         <div className="mt-10 p-4 bg-accent-light rounded-xl text-sm text-accent font-medium">
-          📧 약관 관련 문의: <strong>contact@gametalk.gg</strong>
+          📧 약관 관련 문의: <strong>tmdfoqhdl@naver.com</strong>
         </div>
 
       </div>

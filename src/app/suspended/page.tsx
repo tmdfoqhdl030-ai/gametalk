@@ -45,7 +45,7 @@ export default async function SuspendedPage() {
         )}
         <div className="flex items-center justify-center gap-3">
           <a
-            href="mailto:contact@gametalk.gg"
+            href="mailto:tmdfoqhdl@naver.com"
             className="px-6 py-3 bg-accent text-white text-sm font-bold rounded-xl hover:bg-accent-hover transition-colors"
           >
             📧 이의 제기

@@ -153,8 +153,8 @@ export default function NoticesPage() {
 
       <div className="mt-12 text-center text-xs text-gray-300">
         문의사항은{" "}
-        <a href="mailto:support@gamespeaking.com" className="underline hover:text-accent transition-colors">
-          support@gamespeaking.com
+        <a href="mailto:tmdfoqhdl@naver.com" className="underline hover:text-accent transition-colors">
+          tmdfoqhdl@naver.com
         </a>
         으로 보내주세요.
       </div>

@@ -115,7 +115,7 @@ export default function Footer() {
               { href: "/notices",  label: "공지사항"          },
               { href: "/terms",    label: "이용약관"           },
               { href: "/privacy",  label: "개인정보처리방침"   },
-              { href: "mailto:contact@gametalk.gg", label: "이메일 문의" },
+              { href: "mailto:tmdfoqhdl@naver.com", label: "이메일 문의" },
               { href: "https://discord.gg", label: "Discord 서버" },
             ].map((item) => (
               <li key={item.label}>
@@ -157,7 +157,7 @@ export default function Footer() {
               <span>|</span>
               <span>서비스 운영팀</span>
               <span>|</span>
-              <span>이메일: contact@gametalk.gg</span>
+              <span>이메일: tmdfoqhdl@naver.com</span>
             </p>
             <p className="flex flex-wrap items-center gap-x-3 gap-y-1">
               <Link href="/terms" className="hover:text-gray-300 transition-colors">이용약관</Link>
