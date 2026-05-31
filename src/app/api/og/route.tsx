@@ -70,19 +70,6 @@ export async function GET(req: NextRequest) {
             <span style={{ fontSize: "28px", fontWeight: 900, color: "#3d7eff" }}>
               게임스피킹
             </span>
-            <span
-              style={{
-                fontSize: "12px",
-                fontWeight: 700,
-                color: "#3d7eff",
-                background: "rgba(61,126,255,0.2)",
-                border: "1px solid rgba(61,126,255,0.4)",
-                borderRadius: "999px",
-                padding: "3px 10px",
-              }}
-            >
-              BETA
-            </span>
           </div>
 
           {/* 제목 */}

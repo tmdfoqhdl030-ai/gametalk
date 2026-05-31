@@ -20,8 +20,7 @@ export default function Footer() {
         {/* ── 브랜드 ── */}
         <div className="lg:col-span-2 space-y-4">
           <div className="flex items-center gap-2">
-            <span className="text-2xl font-extrabold text-white tracking-tight">게임톡</span>
-            <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-[#3d7eff]/20 text-[#3d7eff] border border-[#3d7eff]/30">BETA</span>
+            <span className="text-2xl font-extrabold text-white tracking-tight">게임스피킹</span>
           </div>
           <p className="text-sm leading-relaxed text-gray-400 max-w-xs">
             한국 게이머를 위한 영어 팀원 모집 플랫폼.<br />
