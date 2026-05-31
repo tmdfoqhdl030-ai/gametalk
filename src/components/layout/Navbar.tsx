@@ -83,7 +83,7 @@ export default function Navbar({ user }: NavbarProps) {
                 로그인
               </Link>
               <Link href="/auth/signup" className="px-3 py-1.5 text-sm font-bold text-white bg-accent hover:bg-accent-hover rounded-lg transition-colors">
-                무료 가입
+                ⚡ 3초 가입
               </Link>
             </>
           )}

@@ -84,11 +84,26 @@ export default async function HomePage({ searchParams }: PageProps) {
               <Link href="/rooms/new" className="px-6 py-3 bg-accent text-white text-sm font-bold rounded-xl hover:bg-accent-hover transition-colors shadow-sm">
                 + 방 만들기
               </Link>
-              <Link href="/auth/signup" className="px-6 py-3 border border-gray-200 text-gray-600 text-sm font-semibold rounded-xl hover:border-accent hover:text-accent transition-colors">
-                무료 가입하기
+              <Link href="/auth/signup" className="relative px-6 py-3 border-2 border-accent text-accent text-sm font-extrabold rounded-xl hover:bg-accent hover:text-white transition-all">
+                ⚡ 3초 무료 가입
               </Link>
             </div>
-            <p className="mt-4 text-xs text-gray-400">회원가입 무료 · 3초면 완료</p>
+            {/* 3초 가입 강조 */}
+            <div className="flex items-center gap-2 mt-4">
+              {[
+                { step: "1", label: "이메일 입력" },
+                { step: "2", label: "닉네임 설정" },
+                { step: "3", label: "게임 시작 🎮" },
+              ].map((s, i) => (
+                <div key={s.step} className="flex items-center gap-2">
+                  <div className="flex items-center gap-1.5">
+                    <span className="w-5 h-5 rounded-full bg-accent text-white text-[10px] font-black flex items-center justify-center flex-shrink-0">{s.step}</span>
+                    <span className="text-xs font-semibold text-gray-500">{s.label}</span>
+                  </div>
+                  {i < 2 && <span className="text-gray-300 text-xs">→</span>}
+                </div>
+              ))}
+            </div>
           </div>
 
           {/* Right: Modern Game Selection Grid */}
@@ -255,10 +270,11 @@ export default async function HomePage({ searchParams }: PageProps) {
             🎮
           </div>
           <p className="text-2xl font-extrabold mb-2 relative">지금 바로 시작해보세요</p>
-          <p className="text-sm opacity-80 mb-7 relative">무료 가입 후 영어 레벨을 선택하고 팀원을 찾아보세요</p>
+          <p className="text-sm opacity-80 mb-2 relative">무료 가입 후 영어 레벨을 선택하고 팀원을 찾아보세요</p>
+          <p className="text-xs opacity-60 mb-7 relative font-bold tracking-wide">⚡ 이메일 입력 → 닉네임 → 완료 — 딱 3단계</p>
           <div className="flex items-center justify-center gap-3 relative">
             <Link href="/auth/signup" className="px-7 py-3 bg-white text-accent text-sm font-extrabold rounded-xl hover:bg-gray-50 transition-colors shadow">
-              무료 가입하기
+              ⚡ 3초 무료 가입
             </Link>
             <Link href="/rooms/new" className="px-7 py-3 border-2 border-white text-white text-sm font-bold rounded-xl hover:bg-white/10 transition-colors">
               방 만들기
