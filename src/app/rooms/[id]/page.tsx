@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import type { Metadata } from "next";
 import { createClient } from "@/lib/supabase/server";
 import { Room, GAME_LABELS, GAME_EMOJI, LEVEL_LABELS } from "@/types";
 import ChatBox from "@/components/chat/ChatBox";
@@ -7,8 +8,23 @@ import ShareButton from "@/components/ShareButton";
 import RoomAdTrigger from "@/components/rooms/RoomAdTrigger";
 import ReportButton from "@/components/rooms/ReportButton";
 
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://gametalk-six.vercel.app";
+
 interface PageProps {
   params: Promise<{ id: string }>;
+}
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { id } = await params;
+  const supabase = await createClient();
+  const { data } = await supabase.from("rooms").select("title, game").eq("id", id).single();
+  if (!data) return {};
+  const ogUrl = `${BASE_URL}/api/og?title=${encodeURIComponent(data.title)}&game=${data.game}`;
+  return {
+    title: data.title,
+    openGraph: { title: data.title, images: [{ url: ogUrl, width: 1200, height: 630 }] },
+    twitter: { card: "summary_large_image", title: data.title, images: [ogUrl] },
+  };
 }
 
 export default async function RoomPage({ params }: PageProps) {

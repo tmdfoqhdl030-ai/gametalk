@@ -1,12 +1,30 @@
 import { notFound } from "next/navigation";
+import type { Metadata } from "next";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { Post, POST_CATEGORY_LABELS, POST_CATEGORY_COLORS } from "@/types";
 import AnimalAvatar from "@/components/AnimalAvatar";
 import LikeButton from "./LikeButton";
 
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://gametalk-six.vercel.app";
+
 interface PageProps {
   params: Promise<{ id: string }>;
+}
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { id } = await params;
+  const supabase = await createClient();
+  const { data } = await supabase.from("posts").select("title, content").eq("id", id).single();
+  if (!data) return {};
+  const desc = data.content.slice(0, 100).replace(/\n/g, " ");
+  const ogUrl = `${BASE_URL}/api/og?title=${encodeURIComponent(data.title)}&sub=${encodeURIComponent(desc)}`;
+  return {
+    title: data.title,
+    description: desc,
+    openGraph: { title: data.title, description: desc, images: [{ url: ogUrl, width: 1200, height: 630 }] },
+    twitter: { card: "summary_large_image", title: data.title, images: [ogUrl] },
+  };
 }
 
 function timeAgo(dateStr: string): string {

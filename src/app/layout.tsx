@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     description: "배틀그라운드, 롤, 오버워치, 발로란트에서 영어로 소통하는 팀원을 찾아보세요.",
     images: [
       {
-        url: "/og-image.png",
+        url: "/api/og",
         width: 1200,
         height: 630,
         alt: "게임스피킹 — 게임하면서 영어 팀원 모집",
@@ -39,7 +39,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "게임스피킹 — 게임하면서 영어 실력 UP",
     description: "게임하면서 영어로 소통하는 팀원을 찾아보세요.",
-    images: ["/og-image.png"],
+    images: ["/api/og"],
   },
   robots: {
     index: true,
