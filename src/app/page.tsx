@@ -221,27 +221,6 @@ export default async function HomePage({ searchParams }: PageProps) {
         </div>
       </section>
 
-      {/* ── Google Ad Banner ── */}
-      <section className="max-w-5xl mx-auto px-6 py-4">
-        <div className="bg-white border border-gray-100 rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm hover:shadow-md transition-all duration-300">
-          <div className="flex items-center gap-4">
-            <span className="w-10 h-10 rounded-xl bg-accent-light text-accent flex items-center justify-center text-xl font-bold flex-shrink-0">📢</span>
-            <div>
-              <p className="text-sm font-extrabold text-gray-900 flex items-center gap-1.5">
-                OP.GG 프리미엄 멤버십 공식 오픈! 광고 없이 전적 검색
-                <span className="px-1.5 py-0.5 rounded bg-gray-150 text-[8px] font-bold text-gray-400">AD</span>
-              </p>
-              <p className="text-xs text-gray-500 mt-0.5">오직 게이머만을 위한 맞춤형 혜택과 광고 없는 전적 검색 기능을 누려보세요.</p>
-            </div>
-          </div>
-          <a href="https://op.gg" target="_blank" rel="noopener noreferrer" className="px-4 py-2 bg-accent text-white text-xs font-bold rounded-lg hover:bg-accent-hover transition-colors shrink-0 text-center w-full sm:w-auto">
-            멤버십 가입 ➔
-          </a>
-        </div>
-      </section>
-
-
-
       {/* ── Room List ── */}
       <section id="rooms" className="max-w-5xl mx-auto px-6 py-10 space-y-4 scroll-mt-20">
         <div className="flex items-center justify-between">

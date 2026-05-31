@@ -5,7 +5,6 @@ import { Room, GAME_LABELS, GAME_EMOJI, LEVEL_LABELS } from "@/types";
 import ChatBox from "@/components/chat/ChatBox";
 import RoomActions from "./RoomActions";
 import ShareButton from "@/components/ShareButton";
-import RoomAdTrigger from "@/components/rooms/RoomAdTrigger";
 import ReportButton from "@/components/rooms/ReportButton";
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://gametalk-six.vercel.app";
@@ -81,7 +80,6 @@ export default async function RoomPage({ params }: PageProps) {
 
   return (
     <div className="max-w-5xl mx-auto px-6 py-8">
-      <RoomAdTrigger />
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left: Room info + member list */}
         <div className="lg:col-span-1 space-y-4">

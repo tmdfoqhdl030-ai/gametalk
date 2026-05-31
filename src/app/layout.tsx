@@ -4,7 +4,6 @@ import { createClient } from "@/lib/supabase/server";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { User } from "@/types";
-import BottomStickyAd from "@/components/ui/BottomStickyAd";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://gametalk.vercel.app";
@@ -127,7 +126,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <Navbar user={user} />
         <main>{children}</main>
         <Footer />
-        <BottomStickyAd />
       </body>
     </html>
   );
