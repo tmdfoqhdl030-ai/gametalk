@@ -6,7 +6,7 @@ import Footer from "@/components/layout/Footer";
 import { User } from "@/types";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
 
-const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://gametalk.vercel.app";
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://gamespeak.shop";
 
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),

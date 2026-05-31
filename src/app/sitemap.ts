@@ -2,7 +2,7 @@ import { MetadataRoute } from "next";
 import { createClient } from "@/lib/supabase/server";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://gametalk.vercel.app";
+  const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://gamespeak.shop";
 
   // 정적 페이지
   const staticPages: MetadataRoute.Sitemap = [

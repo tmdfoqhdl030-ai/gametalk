@@ -6,7 +6,7 @@ import { Post, POST_CATEGORY_LABELS, POST_CATEGORY_COLORS } from "@/types";
 import AnimalAvatar from "@/components/AnimalAvatar";
 import LikeButton from "./LikeButton";
 
-const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://gametalk-six.vercel.app";
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://gamespeak.shop";
 
 interface PageProps {
   params: Promise<{ id: string }>;

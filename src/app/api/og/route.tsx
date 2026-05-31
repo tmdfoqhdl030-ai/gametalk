@@ -129,7 +129,7 @@ export async function GET(req: NextRequest) {
             fontWeight: 600,
           }}
         >
-          gametalk-six.vercel.app
+          gamespeak.shop
         </div>
       </div>
     ),

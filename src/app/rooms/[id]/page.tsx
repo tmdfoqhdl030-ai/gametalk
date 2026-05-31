@@ -7,7 +7,7 @@ import RoomActions from "./RoomActions";
 import ShareButton from "@/components/ShareButton";
 import ReportButton from "@/components/rooms/ReportButton";
 
-const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://gametalk-six.vercel.app";
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://gamespeak.shop";
 
 interface PageProps {
   params: Promise<{ id: string }>;

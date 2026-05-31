@@ -7,4 +7,4 @@ Disallow: /api/
 Disallow: /auth/callback
 
 # 사이트맵 위치
-Sitemap: https://gametalk.vercel.app/sitemap.xml
+Sitemap: https://gamespeak.shop/sitemap.xml
