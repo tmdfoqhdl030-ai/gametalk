@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- 파란 둥근 배경 -->
+  <rect width="100" height="100" rx="22" fill="#3d7eff"/>
+
+  <!-- 흰색 말풍선 (speaking) -->
+  <path d="M14 17 C14 12 17.6 8.5 22.5 8.5 L77.5 8.5 C82.4 8.5 86 12 86 17 L86 57 C86 62 82.4 65.5 77.5 65.5 L52 65.5 L41 80 L44 65.5 L22.5 65.5 C17.6 65.5 14 62 14 57 Z" fill="white"/>
+
+  <!-- 컨트롤러 몸체 (gaming) -->
+  <rect x="27" y="29" width="46" height="25" rx="12.5" fill="#3d7eff"/>
+
+  <!-- 방향키 (십자) -->
+  <rect x="30" y="38" width="13" height="5" rx="2.5" fill="white"/>
+  <rect x="35" y="33" width="5" height="13" rx="2.5" fill="white"/>
+
+  <!-- 액션 버튼 4개 -->
+  <circle cx="63" cy="36" r="3.2" fill="white"/>
+  <circle cx="70" cy="41.5" r="3.2" fill="white"/>
+  <circle cx="63" cy="47" r="3.2" fill="white"/>
+  <circle cx="56" cy="41.5" r="3.2" fill="white"/>
+</svg>

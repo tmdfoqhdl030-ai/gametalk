@@ -10,6 +10,11 @@ const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://gametalk.vercel.ap
 
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
+  icons: {
+    icon: "/logo.svg",
+    shortcut: "/logo.svg",
+    apple: "/logo.svg",
+  },
   title: {
     default: "게임스피킹 — 게임하면서 영어 실력 UP",
     template: "%s — 게임스피킹",
