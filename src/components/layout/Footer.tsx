@@ -115,7 +115,6 @@ export default function Footer() {
               { href: "/notices",  label: "공지사항"          },
               { href: "/terms",    label: "이용약관"           },
               { href: "/privacy",  label: "개인정보처리방침"   },
-              { href: "/events",   label: "이벤트"             },
               { href: "mailto:contact@gametalk.gg", label: "이메일 문의" },
               { href: "https://discord.gg", label: "Discord 서버" },
             ].map((item) => (

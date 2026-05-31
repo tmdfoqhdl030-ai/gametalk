@@ -48,13 +48,6 @@ export default function Navbar({ user }: NavbarProps) {
             💬 자유게시판
           </Link>
           
-          <Link 
-            href="/events" 
-            className="px-3 py-1.5 text-sm font-bold text-gray-600 hover:text-accent rounded-lg hover:bg-gray-50 transition-all"
-          >
-            🏆 주간 이벤트
-          </Link>
-          
           {user?.is_admin && (
             <Link 
               href="/admin" 
