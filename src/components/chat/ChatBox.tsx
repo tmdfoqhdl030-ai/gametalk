@@ -31,7 +31,7 @@ export default function ChatBox({ roomId, currentUser, initialMessages }: ChatBo
         async (payload) => {
           const { data: user } = await supabase
             .from("users")
-            .select("id, nickname, english_level")
+            .select("id, nickname, english_level, avatar_animal")
             .eq("id", payload.new.user_id)
             .single();
 

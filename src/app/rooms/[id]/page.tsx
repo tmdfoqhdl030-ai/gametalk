@@ -4,6 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 import { Room, GAME_LABELS, GAME_EMOJI, LEVEL_LABELS } from "@/types";
 import ChatBox from "@/components/chat/ChatBox";
 import RoomActions from "./RoomActions";
+import AnimalAvatar from "@/components/AnimalAvatar";
 import ShareButton from "@/components/ShareButton";
 import ReportButton from "@/components/rooms/ReportButton";
 
@@ -40,14 +41,14 @@ export default async function RoomPage({ params, searchParams }: PageProps) {
     .select(`
       *,
       host:users!rooms_host_id_fkey(id, nickname, english_level),
-      room_members(user_id, joined_at, user:users(id, nickname, english_level))
+      room_members(user_id, joined_at, user:users(id, nickname, english_level, avatar_animal))
     `)
     .eq("id", id)
     .single();
 
   if (error || !roomData) notFound();
 
-  const room = roomData as unknown as Room & { room_members: { user_id: string; user: { id: string; nickname: string; english_level: string } }[] };
+  const room = roomData as unknown as Room & { room_members: { user_id: string; user: { id: string; nickname: string; english_level: string; avatar_animal?: string | null } }[] };
 
   const { data: messages } = await supabase
     .from("messages")
@@ -147,9 +148,7 @@ export default async function RoomPage({ params, searchParams }: PageProps) {
               {room.room_members.map((m) => (
                 <li key={m.user_id} className="flex items-center justify-between gap-2 p-1 rounded-lg hover:bg-gray-50/50 transition-colors">
                   <div className="flex items-center gap-2">
-                    <div className="w-7 h-7 rounded-full bg-accent flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
-                      {m.user.nickname[0].toUpperCase()}
-                    </div>
+                    <AnimalAvatar animalId={m.user.avatar_animal} size="xs" />
                     <div>
                       <p className="text-sm font-medium text-gray-900 flex items-center gap-1">
                         {m.user.nickname}

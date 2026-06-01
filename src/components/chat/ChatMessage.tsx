@@ -1,4 +1,5 @@
 import { Message } from "@/types";
+import AnimalAvatar from "@/components/AnimalAvatar";
 
 interface ChatMessageProps {
   message: Message;
@@ -13,9 +14,7 @@ export default function ChatMessage({ message, isOwn }: ChatMessageProps) {
 
   return (
     <div className={`flex gap-2 py-1 ${isOwn ? "flex-row-reverse" : ""}`}>
-      <div className={`flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold text-white ${isOwn ? "bg-accent" : "bg-gray-400"}`}>
-        {(message.user?.nickname?.[0] ?? "?").toUpperCase()}
-      </div>
+      <AnimalAvatar animalId={message.user?.avatar_animal} size="xs" />
       <div className={`max-w-[75%] ${isOwn ? "items-end" : "items-start"} flex flex-col gap-0.5`}>
         {!isOwn && (
           <span className="text-xs text-gray-400 font-medium">{message.user?.nickname ?? "Unknown"}</span>
