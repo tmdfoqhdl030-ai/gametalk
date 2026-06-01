@@ -39,7 +39,7 @@ export default function CreateRoomForm() {
       return;
     }
 
-    router.push(`/rooms/${data.room.id}`);
+    router.push(`/rooms/${data.room.id}?created=true`);
   }
 
   return (

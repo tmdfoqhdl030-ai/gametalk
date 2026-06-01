@@ -11,6 +11,7 @@ const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://gamespeak.shop";
 
 interface PageProps {
   params: Promise<{ id: string }>;
+  searchParams: Promise<{ created?: string }>;
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
@@ -26,8 +27,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   };
 }
 
-export default async function RoomPage({ params }: PageProps) {
+export default async function RoomPage({ params, searchParams }: PageProps) {
   const { id } = await params;
+  const { created } = await searchParams;
+  const isNewlyCreated = created === "true";
   const supabase = await createClient();
 
   const { data: { user: authUser } } = await supabase.auth.getUser();
@@ -80,6 +83,25 @@ export default async function RoomPage({ params }: PageProps) {
 
   return (
     <div className="max-w-5xl mx-auto px-6 py-8">
+      {/* Discord 자동 생성 안내 배너 */}
+      {isNewlyCreated && room.discord_invite && (
+        <div className="mb-6 flex items-start gap-3 bg-indigo-600 text-white rounded-xl px-5 py-4 shadow-lg">
+          <span className="text-2xl flex-shrink-0">🎮</span>
+          <div>
+            <p className="font-extrabold text-base mb-0.5">디스코드 음성 채널이 자동으로 생성되었습니다!</p>
+            <p className="text-sm text-indigo-200 mb-2">팀원들과 바로 게임을 시작하세요. 아래 링크로 입장할 수 있어요.</p>
+            <a
+              href={room.discord_invite}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 bg-white text-indigo-600 font-bold text-sm px-4 py-1.5 rounded-lg hover:bg-indigo-50 transition-colors"
+            >
+              🔗 디스코드 입장하기
+            </a>
+          </div>
+        </div>
+      )}
+
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left: Room info + member list */}
         <div className="lg:col-span-1 space-y-4">
