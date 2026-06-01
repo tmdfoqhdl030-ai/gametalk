@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "이용약관 — 게임스피킹",
+  title: "이용약관 — 게임스피크",
 };
 
 export default function TermsPage() {
@@ -21,14 +21,14 @@ export default function TermsPage() {
         <section>
           <h2 className="text-lg font-bold text-gray-900 mb-3">제1조 (목적)</h2>
           <p>
-            본 약관은 게임스피킹(이하 "서비스")이 제공하는 게임 팀원 모집 및 커뮤니티 서비스의 이용 조건 및 절차에 관한 사항을 규정함을 목적으로 합니다.
+            본 약관은 게임스피크(이하 "서비스")이 제공하는 게임 팀원 모집 및 커뮤니티 서비스의 이용 조건 및 절차에 관한 사항을 규정함을 목적으로 합니다.
           </p>
         </section>
 
         <section>
           <h2 className="text-lg font-bold text-gray-900 mb-3">제2조 (정의)</h2>
           <ul className="space-y-2">
-            <li><span className="font-bold">"서비스"</span>: 게임스피킹이 제공하는 웹사이트 및 제반 서비스</li>
+            <li><span className="font-bold">"서비스"</span>: 게임스피크이 제공하는 웹사이트 및 제반 서비스</li>
             <li><span className="font-bold">"회원"</span>: 본 약관에 동의하고 서비스에 가입한 자</li>
             <li><span className="font-bold">"방"</span>: 게임 팀원 모집을 위해 생성되는 모집 공간</li>
             <li><span className="font-bold">"게시물"</span>: 회원이 서비스 내에 작성한 텍스트, 이미지 등 일체의 콘텐츠</li>

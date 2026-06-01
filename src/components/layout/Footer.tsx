@@ -20,7 +20,7 @@ export default function Footer() {
         {/* ── 브랜드 ── */}
         <div className="lg:col-span-2 space-y-4">
           <div className="flex items-center gap-2">
-            <span className="text-2xl font-extrabold text-white tracking-tight">게임스피킹</span>
+            <span className="text-2xl font-extrabold text-white tracking-tight">게임스피크</span>
           </div>
           <p className="text-sm leading-relaxed text-gray-400 max-w-xs">
             한국 게이머를 위한 영어 팀원 모집 플랫폼.<br />
@@ -152,7 +152,7 @@ export default function Footer() {
         <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
           <div className="text-xs text-gray-500 space-y-1.5 leading-relaxed">
             <p className="flex flex-wrap items-center gap-x-3 gap-y-1">
-              <span className="font-semibold text-gray-400">게임스피킹 (GameSpeaking)</span>
+              <span className="font-semibold text-gray-400">게임스피크 (GameSpeaking)</span>
               <span>|</span>
               <span>서비스 운영팀</span>
               <span>|</span>
@@ -164,12 +164,12 @@ export default function Footer() {
               <Link href="/privacy" className="hover:text-gray-300 transition-colors">개인정보처리방침</Link>
             </p>
             <p>
-              게임스피킹은 Riot Games, Blizzard Entertainment, Krafton과 공식 제휴 관계가 아닙니다.<br className="hidden sm:block" />
+              게임스피크은 Riot Games, Blizzard Entertainment, Krafton과 공식 제휴 관계가 아닙니다.<br className="hidden sm:block" />
               각 게임의 상표 및 저작권은 해당 회사에 귀속됩니다.
             </p>
           </div>
           <p className="text-xs text-gray-600 shrink-0">
-            © 2026 게임스피킹. All rights reserved.
+            © 2026 게임스피크. All rights reserved.
           </p>
         </div>
       </div>

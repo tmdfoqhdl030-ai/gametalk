@@ -5,7 +5,7 @@ export const runtime = "edge";
 
 export async function GET(req: NextRequest) {
   const { searchParams } = req.nextUrl;
-  const title = searchParams.get("title") ?? "게임스피킹";
+  const title = searchParams.get("title") ?? "게임스피크";
   const subtitle = searchParams.get("sub") ?? "게임하면서 영어 팀원 모집";
   const game = searchParams.get("game");
 
@@ -68,7 +68,7 @@ export async function GET(req: NextRequest) {
           {/* 로고 */}
           <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
             <span style={{ fontSize: "28px", fontWeight: 900, color: "#3d7eff" }}>
-              게임스피킹
+              게임스피크
             </span>
           </div>
 

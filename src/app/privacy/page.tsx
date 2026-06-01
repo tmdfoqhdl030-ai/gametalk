@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "개인정보처리방침 — 게임스피킹",
+  title: "개인정보처리방침 — 게임스피크",
 };
 
 export default function PrivacyPage() {
@@ -21,7 +21,7 @@ export default function PrivacyPage() {
         <section>
           <h2 className="text-lg font-bold text-gray-900 mb-3">1. 개인정보처리방침 개요</h2>
           <p>
-            게임스피킹(이하 "서비스")은 이용자의 개인정보를 소중히 여기며, 「개인정보 보호법」 및 관련 법령을 준수합니다.
+            게임스피크(이하 "서비스")은 이용자의 개인정보를 소중히 여기며, 「개인정보 보호법」 및 관련 법령을 준수합니다.
             본 방침은 서비스가 수집·이용·보관·파기하는 개인정보의 처리에 관한 내용을 안내합니다.
           </p>
         </section>
@@ -134,7 +134,7 @@ export default function PrivacyPage() {
         <section>
           <h2 className="text-lg font-bold text-gray-900 mb-3">9. 개인정보 보호책임자</h2>
           <div className="bg-gray-50 rounded-xl p-4 border border-gray-100 text-sm space-y-1">
-            <p><span className="font-bold">담당자:</span> 게임스피킹 운영팀</p>
+            <p><span className="font-bold">담당자:</span> 게임스피크 운영팀</p>
             <p><span className="font-bold">이메일:</span> tmdfoqhdl@naver.com</p>
           </div>
         </section>

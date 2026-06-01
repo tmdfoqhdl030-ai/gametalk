@@ -195,14 +195,14 @@ export default async function HomePage({ searchParams }: PageProps) {
         <div className="max-w-5xl mx-auto px-6 py-12">
           <div className="flex flex-col lg:flex-row items-center gap-10">
             <div className="flex-1">
-              <span className="text-xs font-bold text-accent uppercase tracking-widest">왜 게임스피킹인가요?</span>
+              <span className="text-xs font-bold text-accent uppercase tracking-widest">왜 게임스피크인가요?</span>
               <h2 className="text-2xl font-extrabold text-gray-900 mt-2 mb-4 leading-snug">
                 영어 학원 말고,<br />
                 <span className="text-accent">게임으로 배우세요</span>
               </h2>
               <p className="text-gray-500 text-sm leading-relaxed mb-6">
                 게임 안에서는 자연스럽게 영어를 쓰게 됩니다. 공격, 수비, 작전 — 실전 상황에서 배운 영어는 잊히지 않아요.
-                게임스피킹은 영어 학습 앱이 아닙니다. 그냥 게임을 즐기다 보면 영어가 늘어 있어요.
+                게임스피크은 영어 학습 앱이 아닙니다. 그냥 게임을 즐기다 보면 영어가 늘어 있어요.
               </p>
               <ul className="space-y-3">
                 {[

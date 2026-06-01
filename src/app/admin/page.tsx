@@ -198,7 +198,7 @@ export default function AdminPage() {
         {/* Header */}
         <div className="flex items-center justify-between border-b border-gray-200 pb-5">
           <div>
-            <h1 className="text-2xl font-black text-gray-900 tracking-tight">🛠️ 게임스피킹 관리자 패널</h1>
+            <h1 className="text-2xl font-black text-gray-900 tracking-tight">🛠️ 게임스피크 관리자 패널</h1>
             <p className="text-xs text-gray-500 mt-1">시스템 실시간 현황 모니터링 및 비매너 유저 규제 센터</p>
           </div>
           <button 

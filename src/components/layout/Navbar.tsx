@@ -24,8 +24,8 @@ export default function Navbar({ user }: NavbarProps) {
     <nav className="sticky top-0 z-50 bg-white border-b border-gray-200 h-14">
       <div className="max-w-5xl mx-auto px-6 h-full flex items-center gap-8">
         <Link href="/" className="flex items-center gap-2 font-extrabold text-xl text-accent tracking-tight">
-          <Image src="/logo.svg" alt="게임스피킹 로고" width={32} height={32} className="rounded-lg" />
-          <span>게임<span className="text-gray-900">스피킹</span></span>
+          <Image src="/logo.svg" alt="게임스피크 로고" width={32} height={32} className="rounded-lg" />
+          <span>게임<span className="text-gray-900">스피크</span></span>
         </Link>
 
         <div className="flex items-center gap-2 flex-1">
