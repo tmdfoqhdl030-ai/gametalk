@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server";
+import { createClient, createAdminClient } from "@/lib/supabase/server";
 import { deleteDiscordChannel } from "@/lib/discord";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -46,19 +46,36 @@ export async function POST(_req: NextRequest, { params }: { params: Promise<{ id
   return NextResponse.json({ success: true }, { status: 201 });
 }
 
-// Leave a room
-export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+// Leave a room (or kick if host passes target_user_id in body)
+export async function DELETE(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id: room_id } = await params;
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
   if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  const { error } = await supabase
+  // 강퇴: body에 target_user_id가 있으면 호스트 권한 확인 후 강퇴
+  const body = await req.json().catch(() => ({}));
+  const targetUserId: string = body.target_user_id ?? user.id;
+
+  if (targetUserId !== user.id) {
+    const { data: room } = await supabase
+      .from("rooms")
+      .select("host_id")
+      .eq("id", room_id)
+      .single();
+    if (room?.host_id !== user.id) {
+      return NextResponse.json({ error: "Only host can kick members" }, { status: 403 });
+    }
+  }
+
+  // 강퇴(타인 삭제)는 RLS 우회를 위해 admin client 사용
+  const deleteClient = targetUserId !== user.id ? createAdminClient() : supabase;
+  const { error } = await deleteClient
     .from("room_members")
     .delete()
     .eq("room_id", room_id)
-    .eq("user_id", user.id);
+    .eq("user_id", targetUserId);
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
 

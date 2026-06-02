@@ -7,6 +7,8 @@ import RoomActions from "./RoomActions";
 import AnimalAvatar from "@/components/AnimalAvatar";
 import ShareButton from "@/components/ShareButton";
 import ReportButton from "@/components/rooms/ReportButton";
+import RoomNotification from "@/components/rooms/RoomNotification";
+import MemberList from "@/components/rooms/MemberList";
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://gamespeak.shop";
 
@@ -82,8 +84,16 @@ export default async function RoomPage({ params, searchParams }: PageProps) {
     challenger: "bg-blue-50 text-blue-700 border border-blue-200 font-black animate-pulse"
   };
 
+  const initialMemberIds = room.room_members.map((m) => m.user_id);
+
   return (
     <div className="max-w-5xl mx-auto px-6 py-8">
+      {/* 방 입장 소리 + 토스트 알림 */}
+      <RoomNotification
+        roomId={id}
+        initialMemberIds={initialMemberIds}
+        currentUserId={authUser?.id}
+      />
       {/* Discord 자동 생성 안내 배너 */}
       {isNewlyCreated && room.discord_invite && (
         <div className="mb-6 flex items-start gap-3 bg-indigo-600 text-white rounded-xl px-5 py-4 shadow-lg">
@@ -142,34 +152,13 @@ export default async function RoomPage({ params, searchParams }: PageProps) {
             </div>
           )}
 
-          <div className="bg-white border border-gray-200 rounded-xl p-5">
-            <p className="text-xs font-bold text-gray-400 uppercase mb-3">참여자 ({memberCount}명)</p>
-            <ul className="space-y-2">
-              {room.room_members.map((m) => (
-                <li key={m.user_id} className="flex items-center justify-between gap-2 p-1 rounded-lg hover:bg-gray-50/50 transition-colors">
-                  <div className="flex items-center gap-2">
-                    <AnimalAvatar animalId={m.user.avatar_animal} size="xs" />
-                    <div>
-                      <p className="text-sm font-medium text-gray-900 flex items-center gap-1">
-                        {m.user.nickname}
-                        {m.user_id === room.host_id && (
-                          <span className="text-xs bg-yellow-100 text-yellow-700 px-1.5 py-0.5 rounded font-bold">방장</span>
-                        )}
-                      </p>
-                      <p className="text-xs text-gray-400">{LEVEL_LABELS[m.user.english_level as keyof typeof LEVEL_LABELS] ?? m.user.english_level}</p>
-                    </div>
-                  </div>
-                  {authUser && m.user_id !== authUser.id && (
-                    <ReportButton
-                      roomId={id}
-                      reportedId={m.user_id}
-                      reportedName={m.user.nickname}
-                    />
-                  )}
-                </li>
-              ))}
-            </ul>
-          </div>
+          <MemberList
+            roomId={id}
+            hostId={room.host_id ?? ""}
+            initialMembers={room.room_members}
+            currentUserId={authUser?.id}
+            isHost={isHost}
+          />
 
           <RoomActions
             roomId={id}
