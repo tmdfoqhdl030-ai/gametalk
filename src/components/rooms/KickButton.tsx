@@ -16,13 +16,23 @@ export default function KickButton({ roomId, targetUserId, targetNickname }: Kic
   async function handleKick() {
     if (!confirm(`${targetNickname}님을 방에서 내보내시겠습니까?`)) return;
     setLoading(true);
-    const res = await fetch(`/api/rooms/${roomId}/kick`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ target_user_id: targetUserId }),
-    });
-    setLoading(false);
-    if (res.ok) router.refresh();
+    try {
+      const res = await fetch(`/api/rooms/${roomId}/kick`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ target_user_id: targetUserId }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        router.refresh();
+      } else {
+        alert(`강퇴 실패: ${data.error ?? res.status}`);
+      }
+    } catch (e) {
+      alert(`오류: ${e}`);
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
