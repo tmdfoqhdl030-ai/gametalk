@@ -195,6 +195,31 @@ export default async function HomePage({ searchParams }: PageProps) {
         </div>
       </section>
 
+      {/* ── Room List ── */}
+      <section id="rooms" className="max-w-5xl mx-auto px-6 py-10 space-y-4 scroll-mt-20">
+        <div className="flex items-center justify-between">
+          <div>
+            <h2 className="text-lg font-extrabold text-gray-900">지금 모집 중인 방</h2>
+            <p className="text-xs text-gray-400 mt-0.5">실시간으로 업데이트됩니다</p>
+          </div>
+          <Link href="/rooms/new" className="hidden sm:inline-flex px-4 py-2 bg-accent text-white text-sm font-bold rounded-lg hover:bg-accent-hover transition-colors">
+            + 방 만들기
+          </Link>
+        </div>
+
+        <Suspense fallback={null}><RoomFilter /></Suspense>
+
+        <Suspense fallback={
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <div key={i} className="bg-white border border-gray-200 rounded-xl p-4 animate-pulse h-40" />
+            ))}
+          </div>
+        }>
+          <RoomList game={game} level={level} />
+        </Suspense>
+      </section>
+
       {/* ── How it Works ── */}
       <section className="bg-white border-b border-gray-100 mt-2">
         <div className="max-w-5xl mx-auto px-6 py-12">
@@ -402,31 +427,6 @@ export default async function HomePage({ searchParams }: PageProps) {
             </div>
           </div>
         </div>
-      </section>
-
-      {/* ── Room List ── */}
-      <section id="rooms" className="max-w-5xl mx-auto px-6 py-10 space-y-4 scroll-mt-20">
-        <div className="flex items-center justify-between">
-          <div>
-            <h2 className="text-lg font-extrabold text-gray-900">지금 모집 중인 방</h2>
-            <p className="text-xs text-gray-400 mt-0.5">실시간으로 업데이트됩니다</p>
-          </div>
-          <Link href="/rooms/new" className="hidden sm:inline-flex px-4 py-2 bg-accent text-white text-sm font-bold rounded-lg hover:bg-accent-hover transition-colors">
-            + 방 만들기
-          </Link>
-        </div>
-
-        <Suspense fallback={null}><RoomFilter /></Suspense>
-
-        <Suspense fallback={
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-            {Array.from({ length: 6 }).map((_, i) => (
-              <div key={i} className="bg-white border border-gray-200 rounded-xl p-4 animate-pulse h-40" />
-            ))}
-          </div>
-        }>
-          <RoomList game={game} level={level} />
-        </Suspense>
       </section>
 
       {/* ── CTA Banner — 로그인 여부에 따라 분기 ── */}
