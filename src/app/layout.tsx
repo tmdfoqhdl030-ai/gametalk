@@ -55,7 +55,7 @@ export const metadata: Metadata = {
     },
   },
   verification: {
-    // google: "추후 Google Search Console에서 발급받은 코드 입력",
+    google: "-HL4VMAbvlM7wwfOs8aOZJmAy8xw-J--NzZZnwpXYno",
   },
 };
 
